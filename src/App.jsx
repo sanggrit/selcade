@@ -216,7 +216,7 @@ function Hero() {
             onClick={() => smoothScroll('#contact')}
             className="px-8 py-4 text-[15px] font-bold bg-[#F59E0B] text-[#0A0A0A] rounded hover:bg-[#D97706] active:scale-[0.98] transition-all duration-200"
           >
-            제조사 상담 문의하기
+            상담 문의
           </button>
           <button
             onClick={() => smoothScroll('#services')}
@@ -521,7 +521,7 @@ function FinalCTA() {
             onClick={() => smoothScroll('#contact')}
             className="inline-block px-10 py-5 text-[15px] sm:text-base font-bold bg-[#F59E0B] text-[#0A0A0A] rounded hover:bg-[#D97706] active:scale-[0.98] transition-all duration-200"
           >
-            제조사 상담 문의하기
+            상담 문의
           </button>
         </div>
       </div>
@@ -791,7 +791,7 @@ function Contact() {
                   aria-disabled={isSubmitting}
                   className="w-full py-[1.1rem] text-[15px] font-bold rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-[#111827] text-white hover:bg-[#1E293B] active:scale-[0.99]"
                 >
-                  {isSubmitting ? '전송 중...' : '제조사 상담 문의하기'}
+                  {isSubmitting ? '전송 중...' : '상담 문의'}
                 </button>
 
                 <p className="text-[11px] text-[#94A3B8] text-center">
