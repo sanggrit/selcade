@@ -33,7 +33,7 @@ const TRUST_STATS = [
   { value: '2016',  label: '아마존 글로벌 셀링 시작' },
   { value: 'No.1',  label: '카테고리 베스트셀러' },
   { value: '9+',    label: '강의·컨설팅 기관' },
-  { value: '실행',   label: '운영·콘텐츠·교육 연결' },
+  { value: 'TOTAL', label: '운영·콘텐츠·교육 연결' },
 ]
 
 const FIT_ITEMS = [
