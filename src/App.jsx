@@ -10,12 +10,50 @@
  * and replace it in place. A full text-replacement guide is at the bottom of this file.
  */
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, Component } from 'react'
+
+/* ─────────────────────────────────────────────────────────────
+   ERROR BOUNDARY
+   Catches any render-time exception and shows a readable message
+   instead of leaving the page blank. Must be a class component
+   (React requirement for getDerivedStateFromError).
+   ───────────────────────────────────────────────────────────── */
+class ErrorBoundary extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { error: null }
+  }
+  static getDerivedStateFromError(error) {
+    return { error }
+  }
+  render() {
+    if (this.state.error) {
+      return (
+        <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: 'sans-serif', padding: '2rem', textAlign: 'center' }}>
+          <div>
+            <p style={{ fontSize: '0.75rem', letterSpacing: '0.15em', color: '#94a3b8', marginBottom: '1rem' }}>SELCADE</p>
+            <h1 style={{ fontSize: '1.125rem', fontWeight: 700, color: '#0f172a', marginBottom: '0.5rem' }}>페이지를 불러오는 중 오류가 발생했습니다.</h1>
+            <p style={{ fontSize: '0.8rem', color: '#64748b', marginBottom: '1.5rem' }}>잠시 후 다시 시도해 주세요.</p>
+            <button
+              onClick={() => window.location.reload()}
+              style={{ padding: '0.6rem 1.5rem', fontSize: '0.8rem', fontWeight: 600, background: '#1d4ed8', color: '#fff', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+            >
+              새로고침
+            </button>
+          </div>
+        </div>
+      )
+    }
+    return this.props.children
+  }
+}
 
 /* ─────────────────────────────────────────────────────────────
    HELPER: smooth-scroll to a section by id
+   Named smoothScroll (not scrollTo) to avoid shadowing the
+   native window.scrollTo(x, y) which browsers use internally.
    ───────────────────────────────────────────────────────────── */
-function scrollTo(id) {
+function smoothScroll(id) {
   document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' })
 }
 
@@ -45,7 +83,7 @@ function Header() {
 
   const handleNav = (href) => {
     setMenuOpen(false)
-    scrollTo(href)
+    smoothScroll(href)
   }
 
   return (
@@ -61,7 +99,7 @@ function Header() {
         {/* ── Logo wordmark ── */}
         <a
           href="#hero"
-          onClick={(e) => { e.preventDefault(); scrollTo('#hero') }}
+          onClick={(e) => { e.preventDefault(); smoothScroll('#hero') }}
           className="flex flex-col gap-0.5 select-none"
           aria-label="셀케이드 주식회사 홈으로"
         >
@@ -225,14 +263,14 @@ function Hero() {
           <div className="flex flex-col sm:flex-row gap-3">
             {/* Primary CTA */}
             <button
-              onClick={() => scrollTo('#business')}
+              onClick={() => smoothScroll('#business')}
               className="px-7 py-3.5 text-sm font-semibold bg-blue-700 text-white rounded hover:bg-blue-800 active:bg-blue-900 transition-colors duration-200 text-center"
             >
               사업영역 보기
             </button>
             {/* Secondary CTA */}
             <button
-              onClick={() => scrollTo('#contact')}
+              onClick={() => smoothScroll('#contact')}
               className="px-7 py-3.5 text-sm font-semibold bg-transparent text-white border border-white/30 rounded hover:border-white/70 hover:bg-white/6 transition-all duration-200 text-center"
             >
               협업 문의
@@ -333,7 +371,7 @@ function WhySelcade() {
         {/* Inline CTA after this section */}
         <div className="mt-12 flex justify-center">
           <button
-            onClick={() => scrollTo('#contact')}
+            onClick={() => smoothScroll('#contact')}
             className="inline-flex items-center gap-2 text-sm font-semibold text-blue-700 hover:text-blue-900 transition-colors group"
           >
             {/* Edit link text here */}
@@ -520,7 +558,7 @@ function Business() {
         {/* CTA after business section */}
         <div className="mt-14 flex justify-center">
           <button
-            onClick={() => scrollTo('#contact')}
+            onClick={() => smoothScroll('#contact')}
             className="px-7 py-3.5 text-sm font-semibold bg-blue-700 text-white rounded hover:bg-blue-800 transition-colors duration-200"
           >
             {/* Edit CTA button label here */}
@@ -623,7 +661,7 @@ function Experience() {
         {/* Inline CTA after proof section */}
         <div className="mt-12 flex justify-center">
           <button
-            onClick={() => scrollTo('#contact')}
+            onClick={() => smoothScroll('#contact')}
             className="inline-flex items-center gap-2 text-sm font-semibold text-slate-300 hover:text-white transition-colors group"
           >
             {/* Edit text here */}
@@ -728,7 +766,7 @@ function MidCTA() {
         </p>
         {/* ── Edit button label ── */}
         <button
-          onClick={() => scrollTo('#contact')}
+          onClick={() => smoothScroll('#contact')}
           className="inline-block px-8 py-3.5 text-sm font-semibold bg-white text-blue-700 rounded hover:bg-blue-50 active:bg-blue-100 transition-colors duration-200"
         >
           문의하기
@@ -1259,6 +1297,7 @@ function FormField({
    ───────────────────────────────────────────────────────────── */
 export default function App() {
   return (
+    <ErrorBoundary>
     <div className="font-sans antialiased">
       <Header />
       <Hero />
@@ -1271,6 +1310,7 @@ export default function App() {
       <Contact />
       <Footer />
     </div>
+    </ErrorBoundary>
   )
 }
 

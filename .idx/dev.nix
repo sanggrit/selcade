@@ -6,7 +6,6 @@
   # Use https://search.nixos.org/packages to find packages
   packages = [
     pkgs.nodejs_22
-    pkgs.python3
   ];
   # Sets environment variables in the workspace
   env = {};
@@ -21,7 +20,10 @@
       enable = true;
       previews = {
         web = {
-          command = ["python3" "-m" "http.server" "$PORT" "--bind" "0.0.0.0"];
+          # Vite dev server — serves the React app with HMR on the IDX preview port.
+          # Previously used python3 -m http.server which served the bare project root
+          # (old index.html + empty main.js) instead of the built React app.
+          command = ["sh" "-c" "npm run dev -- --port $PORT --host 0.0.0.0"];
           manager = "web";
         };
       };
@@ -30,15 +32,12 @@
     workspace = {
       # Runs when a workspace is first created
       onCreate = {
-        # Example: install JS dependencies from NPM
-        # npm-install = "npm install";
-        # Open editors for the following files by default, if they exist:
-        default.openFiles = [ "style.css" "main.js" "index.html" ];
+        npm-install = "npm install";
+        default.openFiles = [ "src/App.jsx" "index.html" ];
       };
       # Runs when the workspace is (re)started
       onStart = {
-        # Example: start a background task to watch and re-build backend code
-        # watch-backend = "npm run watch-backend";
+        npm-install = "npm install";
       };
     };
   };

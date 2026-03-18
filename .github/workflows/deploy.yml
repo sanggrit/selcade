@@ -1,0 +1,63 @@
+# Deploy to GitHub Pages on every push to main.
+#
+# SETUP (one-time, in GitHub repo settings):
+#   Settings → Pages → Source → GitHub Actions
+#
+# Once enabled, every push to main triggers a build + deploy.
+# The live URL will be: https://sanggrit.github.io/selcade/
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:   # allow manual trigger from GitHub Actions UI
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deployment at a time; cancel any in-progress run on new push
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        # VITE_BASE_URL sets the Vite `base` option for GitHub Pages sub-path.
+        # The repo lives at sanggrit/selcade so the Pages URL is /selcade/.
+        run: npm run build
+        env:
+          VITE_BASE_URL: /selcade/
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload build artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
