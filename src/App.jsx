@@ -30,25 +30,25 @@ const NAV_LINKS = [
 ]
 
 const TRUST_STATS = [
-  { value: '2016',  label: '아마존 글로벌 셀링 시작' },
-  { value: 'No.1',  label: '카테고리 베스트셀러' },
-  { value: '9+',    label: '강의·컨설팅 기관' },
+  { value: '2016',  label: '아마존 직접 판매 시작' },
+  { value: '#1',    label: '카테고리 베스트셀러 달성' },
+  { value: '9+',    label: '대학·기관 강의 파트너' },
   { value: 'TOTAL', label: '운영·콘텐츠·교육·컨설팅' },
 ]
 
 const FIT_ITEMS = [
-  '해외 판매를 어디서부터 시작해야 할지 모르는 기업',
-  '아마존 진출은 고민 중이지만 운영 구조가 막막한 기업',
-  '상세페이지와 콘텐츠가 준비되지 않은 제조사',
-  '수출 이후 지속적인 판매 체계가 필요한 기업',
-  '실무형 파트너와 교육이 함께 필요한 기업',
+  '해외 판매를 고민 중인데, 어디서부터 시작해야 할지 모르는 기업',
+  '아마존 진출은 결정했지만, 실제 운영 구조가 막막한 기업',
+  '상세페이지와 해외용 콘텐츠가 준비되지 않은 제조사',
+  '수출 이후에도 판매가 지속되는 구조가 필요한 기업',
+  '실무 파트너와 교육이 함께 필요한 기업',
 ]
 
 const SERVICES_LIST = [
-  { title: '시장 검토',   desc: '어떤 제품이 어떤 시장에서 통할지 정리합니다.' },
-  { title: '콘텐츠 기획', desc: '해외 고객이 이해하는 상세페이지와 메시지를 만듭니다.' },
-  { title: '운영 설계',   desc: '입점 이후 판매가 이어지는 구조를 점검합니다.' },
-  { title: '교육 지원',   desc: '대표와 실무자가 직접 이해하고 실행할 수 있게 돕습니다.' },
+  { title: '시장 검토',   desc: '어떤 제품이 어떤 시장에서 통할지 짚어드립니다. 방향이 맞아야 실행이 의미 있습니다.' },
+  { title: '콘텐츠 기획', desc: '해외 고객이 이해하는 상세페이지와 메시지를 만듭니다. 번역이 아닌 현지화입니다.' },
+  { title: '운영 설계',   desc: '입점 이후에도 판매가 이어지는 구조를 잡습니다. 올리는 것보다 팔리는 것이 중요합니다.' },
+  { title: '교육 지원',   desc: '대표와 실무자가 직접 이해하고 실행할 수 있도록 돕습니다. 의존이 아닌 자립을 목표로 합니다.' },
 ]
 
 const TRACK_BADGES = [
@@ -63,14 +63,14 @@ const TRACK_HISTORY = [
   { year: '2019',   text: '대학·무역기관 전자상거래 강의 및 멘토링 수행' },
   { year: '2019 ~', text: '아마존 브랜드 운영대행 수행' },
   { year: '2021 ~', text: 'aT센터 아마존 글로벌 셀링 강의 수행' },
-  { year: '2024',   text: '제조사 자사제품 아마존 베스트셀러 랭킹 1위 달성' },
+  { year: '2024',   text: '해외 판매 경험 없던 제조사 자사제품, 아마존 베스트셀러 1위 달성' },
 ]
 
 const PROCESS_STEPS = [
-  { num: '01', title: '상담', desc: '현재 제품과 목표 시장을 확인합니다.' },
-  { num: '02', title: '진단', desc: '시장성과 판매 방향을 검토합니다.' },
-  { num: '03', title: '제안', desc: '필요한 범위에 맞춰 방향을 제안합니다.' },
-  { num: '04', title: '실행', desc: '우선순위에 맞춰 단계적으로 진행합니다.' },
+  { num: '01', title: '상담', desc: '현재 제품과 목표 시장을 파악합니다.' },
+  { num: '02', title: '진단', desc: '시장성과 판매 방향을 검토하고 솔직하게 공유합니다.' },
+  { num: '03', title: '제안', desc: '상황에 맞는 범위와 방향을 제안합니다.' },
+  { num: '04', title: '실행', desc: '우선순위에 따라 단계적으로 진행합니다.' },
 ]
 
 const INQUIRY_AREAS = [
@@ -272,12 +272,12 @@ function Hero() {
 
         <h1 className="text-[2.6rem] sm:text-[3.75rem] md:text-[5rem] lg:text-[6rem] xl:text-[7rem] font-black text-[#F5F5F4] leading-[1.04] tracking-tight mb-6 sm:mb-8">
           제조사의 제품을<br />
-          해외 판매로 연결합니다
+          해외에서 팔리게 합니다
         </h1>
 
         <p className="text-[#94A3B8] text-[15px] sm:text-base lg:text-[17px] leading-[1.9] mb-10 sm:mb-12 max-w-xl">
           셀케이드는 제조사를 위한 실행형 글로벌 이커머스 파트너입니다.<br className="hidden sm:block" />
-          아마존 전략, 콘텐츠, 운영, 교육까지 실제 판매에 맞게 연결합니다.
+          전략 수립부터 콘텐츠, 운영, 교육까지 판매 전 과정을 함께합니다.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
@@ -341,13 +341,13 @@ function ProblemRole() {
         </h2>
         <div className="space-y-5 text-[#334155] text-[15px] sm:text-base lg:text-[17px] leading-[1.9]">
           <p>
-            해외 판매는 단순 입점으로 끝나지 않습니다.<br />
-            시장, 콘텐츠, 운영, 구조가 함께 맞아야 실제 판매로 이어집니다.
+            입점이 곧 판매로 이어지지는 않습니다.<br />
+            시장이 맞아야 하고, 콘텐츠가 통해야 하고,<br className="hidden sm:block" />
+            운영 구조가 뒷받침돼야 실제 판매로 이어집니다.
           </p>
           <p>
             셀케이드는 제품 등록에 그치지 않습니다.<br />
-            제조사의 제품이 해외 시장에서 팔릴 수 있도록<br className="hidden sm:block" />
-            전략부터 실행까지 연결합니다.
+            제조사 제품이 해외 시장에서 팔리는 구조를 만드는 데 집중합니다.
           </p>
         </div>
       </div>
@@ -365,7 +365,7 @@ function Fit() {
         <div className="max-w-3xl">
           <SectionLabel text="Who We Help" dark />
           <h2 className="mt-5 text-[2rem] sm:text-[2.5rem] lg:text-[3.25rem] font-black text-[#F5F5F4] leading-tight mb-12 sm:mb-14">
-            이런 고민을<br />안고 계신가요?
+            이런 상황이라면<br />셀케이드가 맞습니다
           </h2>
           <ul className="space-y-5 sm:space-y-6 mb-14">
             {FIT_ITEMS.map((item) => (
@@ -444,9 +444,9 @@ function TrackRecord() {
             신뢰는<br />결과로 증명합니다
           </h2>
           <p className="mt-5 text-[#334155] text-[15px] max-w-xl leading-[1.85]">
-            셀케이드는 2016년부터 글로벌 이커머스 실무를 이어왔습니다.<br />
-            그리고 2024년, 판매 경험이 없던 제조사 자사제품을<br className="hidden sm:block" />
-            아마존 베스트셀러 랭킹 1위까지 끌어올렸습니다.
+            2016년부터 직접 아마존에서 판매해왔습니다.<br />
+            2024년에는 해외 판매 경험이 없던 제조사 제품을<br className="hidden sm:block" />
+            아마존 카테고리 베스트셀러 1위로 올렸습니다.
           </p>
         </div>
 
@@ -523,11 +523,11 @@ function FinalCTA() {
           </div>
           <h2 className="text-[2.25rem] sm:text-[3rem] lg:text-[4rem] xl:text-[4.5rem] font-black text-[#F5F5F4] leading-[1.06] tracking-tight mb-6 sm:mb-8">
             해외 판매,<br />
-            방향부터 점검해보시기 바랍니다
+            지금 방향부터 잡아보세요
           </h2>
           <p className="text-[#94A3B8] text-[15px] sm:text-base leading-relaxed mb-10 sm:mb-12 max-w-lg">
-            제품의 시장성부터 아마존 진출 방향까지
-            제조사 상황에 맞는 현실적인 방향을 함께 정리해드립니다.
+            제품의 시장성부터 아마존 진출 방향까지,
+            지금 상황에 맞는 현실적인 방향을 함께 검토해드립니다.
           </p>
           <button
             onClick={() => smoothScroll('#contact')}
@@ -704,7 +704,7 @@ function Contact() {
                 </div>
                 <h3 className="text-base font-bold text-[#111827]">문의가 접수되었습니다</h3>
                 <p className="text-[#334155] text-sm leading-relaxed">
-                  소중한 문의 감사합니다. 빠른 시간 내에 답변드리겠습니다.
+                  문의해 주셔서 감사합니다. 확인 후 빠르게 연락드리겠습니다.
                 </p>
                 <button
                   onClick={() => setStatus('idle')}
