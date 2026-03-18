@@ -1,0 +1,33 @@
+/* Tailwind directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Smooth scrolling for the whole page */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Body font: Noto Sans KR */
+  body {
+    @apply font-sans antialiased text-slate-800 bg-white;
+  }
+
+  /* Offset all anchor targets by the sticky header height (70px) */
+  section[id] {
+    scroll-margin-top: 70px;
+  }
+
+  /* Prevent awkward Korean word breaks on headings */
+  h1, h2, h3 {
+    word-break: keep-all;
+  }
+}
+
+@layer utilities {
+  /* Utility for wide logo tracking */
+  .tracking-logo {
+    letter-spacing: 0.22em;
+  }
+}

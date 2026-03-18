@@ -1,14 +1,32 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
-</head>
-<body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
-</body>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Page title and meta description -->
+    <title>셀케이드 주식회사 | SELCADE Co., Ltd.</title>
+    <meta
+      name="description"
+      content="셀케이드는 브랜드 운영, 글로벌 이커머스, 국내외 유통, 마케팅, 판매 실행을 연결하는 실무 중심 비즈니스 파트너입니다."
+    />
+    <meta name="keywords" content="셀케이드, SELCADE, 아마존 판매, 글로벌 이커머스, 브랜드 운영, 유통, 마케팅, 실무 교육" />
+
+    <!-- Open Graph (SNS share preview) -->
+    <meta property="og:title" content="셀케이드 주식회사 | SELCADE Co., Ltd." />
+    <meta property="og:description" content="브랜드 운영부터 판매 실행까지, 실무로 연결합니다." />
+    <meta property="og:type" content="website" />
+
+    <!-- Korean font: Noto Sans KR weights 400, 500, 700, 900 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
