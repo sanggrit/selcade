@@ -10,7 +10,7 @@
  * and replace it in place. A full text-replacement guide is at the bottom of this file.
  */
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 /* ─────────────────────────────────────────────────────────────
    HELPER: smooth-scroll to a section by id
@@ -746,42 +746,86 @@ function MidCTA() {
 // Formspree endpoint — replace the ID if the form is ever recreated
 const FORMSPREE_URL = 'https://formspree.io/f/mnjglage'
 
+// Initial empty form state — defined outside component so identity is stable
+const EMPTY_FORM = { org: '', name: '', email: '', subject: '', message: '' }
+
+// Field submission order — used to focus the first invalid field on error
+const FIELD_ORDER = ['org', 'name', 'email', 'subject', 'message']
+
+// Validation — runs on submit; returns object of { fieldName: errorString }
+function validateForm(fields) {
+  const e = {}
+
+  if (!fields.org.trim())
+    e.org = '소속을 입력해 주세요.'
+
+  if (!fields.name.trim())
+    e.name = '성함을 입력해 주세요.'
+  else if (fields.name.trim().length < 2)
+    e.name = '성함은 2자 이상 입력해 주세요.'
+
+  if (!fields.email.trim())
+    e.email = '이메일 주소를 입력해 주세요.'
+  else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email.trim()))
+    e.email = '올바른 이메일 주소 형식으로 입력해 주세요.'
+
+  if (!fields.subject.trim())
+    e.subject = '제목을 입력해 주세요.'
+
+  if (!fields.message.trim())
+    e.message = '문의 내용을 입력해 주세요.'
+  else if (fields.message.trim().length < 10)
+    e.message = '문의 내용은 10자 이상 입력해 주세요.'
+
+  return e
+}
+
 function Contact() {
-  const EMPTY = { org: '', name: '', email: '', subject: '', message: '' }
-  const [form, setForm]         = useState(EMPTY)
-  const [errors, setErrors]     = useState({})
-  const [status, setStatus]     = useState('idle') // 'idle' | 'submitting' | 'success' | 'error'
+  const [form, setForm]               = useState(EMPTY_FORM)
+  const [errors, setErrors]           = useState({})
+  const [status, setStatus]           = useState('idle') // 'idle' | 'submitting' | 'success' | 'error'
   const [serverError, setServerError] = useState('')
 
-  // ── Field-level validation rules ──
-  const validate = (fields) => {
-    const e = {}
-    if (!fields.org.trim())     e.org     = '소속을 입력해 주세요.'
-    if (!fields.name.trim())    e.name    = '성함을 입력해 주세요.'
-    if (!fields.email.trim()) {
-      e.email = '이메일 주소를 입력해 주세요.'
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) {
-      e.email = '올바른 이메일 주소 형식으로 입력해 주세요.'
-    }
-    if (!fields.subject.trim())  e.subject = '제목을 입력해 주세요.'
-    if (!fields.message.trim())  e.message = '문의 내용을 입력해 주세요.'
-    return e
-  }
+  // Refs for focusing the first invalid field on validation failure
+  const fieldRefs = useRef({})
+  const setFieldRef = (name) => (el) => { fieldRefs.current[name] = el }
+
+  // Cancel in-flight request if the component unmounts mid-submit
+  const abortRef = useRef(null)
+  useEffect(() => () => abortRef.current?.abort(), [])
 
   const handleChange = (e) => {
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
-    // Clear that field's error as the user corrects it
+    // Clear this field's error as soon as the user starts correcting it
     if (errors[name]) setErrors((prev) => ({ ...prev, [name]: '' }))
+    // Also clear server error so the banner disappears when editing after a failure
+    if (status === 'error') setStatus('idle')
+  }
+
+  // Validate email on blur so the user gets early feedback without waiting for submit
+  const handleBlur = (e) => {
+    const { name, value } = e.target
+    if (name === 'email' && value.trim() && !errors.email) {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim()))
+        setErrors((prev) => ({ ...prev, email: '올바른 이메일 주소 형식으로 입력해 주세요.' }))
+    }
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const validationErrors = validate(form)
+
+    const validationErrors = validateForm(form)
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors)
+      // Move focus to the first invalid field so keyboard/screen-reader users know where to look
+      const firstKey = FIELD_ORDER.find((k) => validationErrors[k])
+      if (firstKey) fieldRefs.current[firstKey]?.focus()
       return
     }
+
+    abortRef.current?.abort()
+    abortRef.current = new AbortController()
 
     setStatus('submitting')
     setServerError('')
@@ -789,31 +833,39 @@ function Contact() {
     try {
       const res = await fetch(FORMSPREE_URL, {
         method: 'POST',
+        signal: abortRef.current.signal,
         headers: {
           'Content-Type': 'application/json',
+          // Required for Formspree to return JSON instead of redirecting
           Accept: 'application/json',
         },
         body: JSON.stringify({
-          소속:      form.org,
-          성함:      form.name,
-          이메일주소: form.email,
-          제목:      form.subject,
-          문의내용:   form.message,
+          // _subject sets the email subject line in the Formspree inbox
+          _subject:   `[셀케이드 문의] ${form.subject.trim()}`,
+          // Honeypot — bots fill this; Formspree rejects submissions where it is non-empty
+          _gotcha:    '',
+          // Visible fields — send trimmed values
+          소속:        form.org.trim(),
+          성함:        form.name.trim(),
+          이메일주소:   form.email.trim(),
+          제목:        form.subject.trim(),
+          문의내용:     form.message.trim(),
         }),
       })
 
       if (res.ok) {
         setStatus('success')
-        setForm(EMPTY)
+        setForm(EMPTY_FORM)
         setErrors({})
       } else {
-        // Formspree returns { errors: [...] } on 4xx
+        // Formspree returns { errors: [{ message, field }] } on 4xx
         const data = await res.json().catch(() => ({}))
-        const msg = data?.errors?.map((err) => err.message).join(' ') || ''
+        const msg  = data?.errors?.map((err) => err.message).join(' ') || ''
         setServerError(msg || '알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.')
         setStatus('error')
       }
-    } catch {
+    } catch (err) {
+      if (err.name === 'AbortError') return
       setServerError('네트워크 오류가 발생했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요.')
       setStatus('error')
     }
@@ -892,9 +944,16 @@ function Contact() {
 
             {/* ── Success state ── */}
             {status === 'success' ? (
-              <div className="bg-white rounded-xl p-12 border border-slate-100 text-center flex flex-col items-center gap-4">
-                {/* Checkmark icon (CSS-only) */}
-                <div className="w-14 h-14 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center">
+              <div
+                role="status"
+                aria-live="polite"
+                className="bg-white rounded-xl p-12 border border-slate-100 text-center flex flex-col items-center gap-4"
+              >
+                {/* Checkmark icon (CSS-only, no image required) */}
+                <div
+                  aria-hidden="true"
+                  className="w-14 h-14 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center"
+                >
                   <div className="w-2.5 h-5 border-r-2 border-b-2 border-blue-600 rotate-45 -mt-1" />
                 </div>
                 <h3 className="text-lg font-bold text-slate-900">
@@ -912,10 +971,11 @@ function Contact() {
                 </button>
               </div>
             ) : (
-              /* ── Form ── */
+              /* ── Inquiry form ── */
               <form
                 onSubmit={handleSubmit}
                 noValidate
+                aria-label="협업 문의 양식"
                 className="bg-white rounded-xl p-8 lg:p-10 border border-slate-100 space-y-5"
               >
                 {/* 소속 + 성함 row */}
@@ -925,9 +985,11 @@ function Contact() {
                     name="org"
                     type="text"
                     placeholder="회사명 또는 기관명"
+                    autoComplete="organization"
                     value={form.org}
                     onChange={handleChange}
                     error={errors.org}
+                    inputRef={setFieldRef('org')}
                     required
                   />
                   <FormField
@@ -935,9 +997,11 @@ function Contact() {
                     name="name"
                     type="text"
                     placeholder="홍길동"
+                    autoComplete="name"
                     value={form.name}
                     onChange={handleChange}
                     error={errors.name}
+                    inputRef={setFieldRef('name')}
                     required
                   />
                 </div>
@@ -948,9 +1012,12 @@ function Contact() {
                   name="email"
                   type="email"
                   placeholder="example@company.com"
+                  autoComplete="email"
                   value={form.email}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   error={errors.email}
+                  inputRef={setFieldRef('email')}
                   required
                 />
 
@@ -960,22 +1027,35 @@ function Contact() {
                   name="subject"
                   type="text"
                   placeholder="문의 제목을 입력해 주세요."
+                  autoComplete="off"
                   value={form.subject}
                   onChange={handleChange}
                   error={errors.subject}
+                  inputRef={setFieldRef('subject')}
                   required
                 />
 
-                {/* 문의 내용 */}
+                {/* 문의 내용 — textarea handled inline for rows prop */}
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-                    문의 내용 <span className="text-red-400 ml-0.5">*</span>
+                  <label
+                    htmlFor="field-message"
+                    className="block text-xs font-semibold text-slate-600 mb-1.5"
+                  >
+                    문의 내용
+                    <span className="text-red-400 ml-0.5" aria-hidden="true">*</span>
+                    <span className="sr-only">(필수)</span>
                   </label>
                   <textarea
+                    id="field-message"
                     name="message"
                     value={form.message}
                     onChange={handleChange}
+                    ref={setFieldRef('message')}
                     rows={5}
+                    required
+                    aria-required="true"
+                    aria-invalid={!!errors.message}
+                    aria-describedby={errors.message ? 'field-message-error' : undefined}
                     placeholder="문의하실 내용을 자유롭게 작성해 주세요."
                     className={`w-full px-4 py-2.5 text-sm border rounded focus:outline-none focus:ring-2 transition text-slate-800 placeholder:text-slate-300 resize-none ${
                       errors.message
@@ -984,24 +1064,37 @@ function Contact() {
                     }`}
                   />
                   {errors.message && (
-                    <p className="mt-1 text-xs text-red-500">{errors.message}</p>
+                    <p id="field-message-error" role="alert" className="mt-1 text-xs text-red-500">
+                      {errors.message}
+                    </p>
                   )}
                 </div>
 
-                {/* Server-level error banner */}
-                {status === 'error' && serverError && (
-                  <div className="flex items-start gap-3 bg-red-50 border border-red-100 rounded-lg px-4 py-3">
-                    <div className="w-4 h-4 flex-shrink-0 mt-0.5 rounded-full border border-red-400 flex items-center justify-center">
-                      <span className="text-red-500 text-[10px] font-black leading-none">!</span>
+                {/* Server-level error banner — aria-live so screen readers announce it */}
+                <div
+                  role="alert"
+                  aria-live="assertive"
+                  aria-atomic="true"
+                  className="empty:hidden"
+                >
+                  {status === 'error' && serverError && (
+                    <div className="flex items-start gap-3 bg-red-50 border border-red-100 rounded-lg px-4 py-3">
+                      <div
+                        aria-hidden="true"
+                        className="w-4 h-4 flex-shrink-0 mt-0.5 rounded-full border border-red-400 flex items-center justify-center"
+                      >
+                        <span className="text-red-500 text-[10px] font-black leading-none">!</span>
+                      </div>
+                      <p className="text-xs text-red-600 leading-relaxed">{serverError}</p>
                     </div>
-                    <p className="text-xs text-red-600 leading-relaxed">{serverError}</p>
-                  </div>
-                )}
+                  )}
+                </div>
 
                 {/* Submit button */}
                 <button
                   type="submit"
                   disabled={isSubmitting}
+                  aria-disabled={isSubmitting}
                   className="w-full py-3.5 text-sm font-semibold rounded transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed bg-blue-700 text-white hover:bg-blue-800 active:bg-blue-900"
                 >
                   {isSubmitting ? '전송 중...' : '문의 보내기'}
@@ -1107,30 +1200,60 @@ function ContactItem({ label, value, href, note }) {
 }
 
 /**
- * FormField — reusable labeled text input with inline error display.
+ * FormField — labeled text input with:
+ *   - explicit htmlFor/id association (accessibility)
+ *   - aria-describedby pointing to the error message when invalid
+ *   - aria-required / aria-invalid for screen readers
+ *   - forwarded ref via inputRef for programmatic focus
+ *   - onBlur support (used for early email validation)
+ *   - autoComplete for browser autofill
  */
-function FormField({ label, name, type, placeholder, value, onChange, error, required }) {
+function FormField({
+  label, name, type, placeholder,
+  value, onChange, onBlur,
+  error, required,
+  autoComplete,
+  inputRef,
+}) {
+  const fieldId  = `field-${name}`
+  const errorId  = `field-${name}-error`
+
   return (
     <div>
-      <label className="block text-xs font-semibold text-slate-600 mb-1.5">
+      <label htmlFor={fieldId} className="block text-xs font-semibold text-slate-600 mb-1.5">
         {label}
-        {required && <span className="text-red-400 ml-0.5">*</span>}
+        {required && (
+          <>
+            <span className="text-red-400 ml-0.5" aria-hidden="true">*</span>
+            <span className="sr-only">(필수)</span>
+          </>
+        )}
       </label>
       <input
+        id={fieldId}
         type={type}
         name={name}
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
         placeholder={placeholder}
+        autoComplete={autoComplete}
         required={required}
+        aria-required={required}
         aria-invalid={!!error}
+        aria-describedby={error ? errorId : undefined}
+        ref={inputRef}
         className={`w-full px-4 py-2.5 text-sm border rounded focus:outline-none focus:ring-2 transition text-slate-800 placeholder:text-slate-300 ${
           error
             ? 'border-red-300 focus:border-red-400 focus:ring-red-50'
             : 'border-slate-200 focus:border-blue-400 focus:ring-blue-50'
         }`}
       />
-      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
+      {error && (
+        <p id={errorId} role="alert" className="mt-1 text-xs text-red-500">
+          {error}
+        </p>
+      )}
     </div>
   )
 }
