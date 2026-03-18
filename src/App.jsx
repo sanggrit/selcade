@@ -659,7 +659,7 @@ function Contact() {
         <div className="mb-12 sm:mb-14 lg:mb-16">
           <SectionLabel text="Contact" />
           <h2 className="mt-4 text-[2rem] sm:text-[2.5rem] lg:text-[3.25rem] font-black text-[#111827] leading-tight">
-            제조사 맞춤 상담 문의
+            1:1 상담 문의
           </h2>
           <p className="mt-3 text-[#334155] text-[15px] max-w-lg leading-relaxed">
             현재 제품과 목표 시장을 남겨주시면
