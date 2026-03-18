@@ -313,7 +313,7 @@ function Fit() {
         <div className="max-w-3xl">
           <SectionLabel text="Who We Help" dark />
           <h2 className="mt-5 text-[2rem] sm:text-[2.5rem] lg:text-[3.25rem] font-black text-[#F5F5F4] leading-tight mb-12 sm:mb-14">
-            이런 제조사와<br />잘 맞습니다
+            이런 고민을<br />안고 계신가요?
           </h2>
           <ul className="space-y-5 sm:space-y-6 mb-14">
             {items.map((item) => (
@@ -402,7 +402,7 @@ function TrackRecord() {
     { year: '2019',   text: '대학·무역기관 전자상거래 강의 및 멘토링 수행' },
     { year: '2019 ~', text: '아마존 브랜드 운영대행 수행' },
     { year: '2021 ~', text: 'aT센터 아마존 글로벌 셀링 강의 수행' },
-    { year: '2024',   text: '제조사 자사제품 아마존 베스트셀러 랭킹 1위 달성', highlight: true },
+    { year: '2024',   text: '제조사 자사제품 아마존 베스트셀러 랭킹 1위 달성' },
   ]
 
   return (
