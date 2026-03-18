@@ -743,18 +743,80 @@ function MidCTA() {
    Left: contact info + inquiry types.
    Right: simple inquiry form (frontend only — wire up backend later).
    ───────────────────────────────────────────────────────────── */
+// Formspree endpoint — replace the ID if the form is ever recreated
+const FORMSPREE_URL = 'https://formspree.io/f/mnjglage'
+
 function Contact() {
-  const [form, setForm] = useState({ name: '', phone: '', email: '', message: '' })
-  const [submitted, setSubmitted] = useState(false)
+  const EMPTY = { org: '', name: '', email: '', subject: '', message: '' }
+  const [form, setForm]         = useState(EMPTY)
+  const [errors, setErrors]     = useState({})
+  const [status, setStatus]     = useState('idle') // 'idle' | 'submitting' | 'success' | 'error'
+  const [serverError, setServerError] = useState('')
 
-  const handleChange = (e) =>
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  // ── Field-level validation rules ──
+  const validate = (fields) => {
+    const e = {}
+    if (!fields.org.trim())     e.org     = '소속을 입력해 주세요.'
+    if (!fields.name.trim())    e.name    = '성함을 입력해 주세요.'
+    if (!fields.email.trim()) {
+      e.email = '이메일 주소를 입력해 주세요.'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fields.email)) {
+      e.email = '올바른 이메일 주소 형식으로 입력해 주세요.'
+    }
+    if (!fields.subject.trim())  e.subject = '제목을 입력해 주세요.'
+    if (!fields.message.trim())  e.message = '문의 내용을 입력해 주세요.'
+    return e
+  }
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setForm((prev) => ({ ...prev, [name]: value }))
+    // Clear that field's error as the user corrects it
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: '' }))
+  }
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // TODO: Replace this with your actual form submission logic
-    // e.g., fetch('/api/contact', { method: 'POST', body: JSON.stringify(form) })
-    setSubmitted(true)
+    const validationErrors = validate(form)
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors)
+      return
+    }
+
+    setStatus('submitting')
+    setServerError('')
+
+    try {
+      const res = await fetch(FORMSPREE_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          소속:      form.org,
+          성함:      form.name,
+          이메일주소: form.email,
+          제목:      form.subject,
+          문의내용:   form.message,
+        }),
+      })
+
+      if (res.ok) {
+        setStatus('success')
+        setForm(EMPTY)
+        setErrors({})
+      } else {
+        // Formspree returns { errors: [...] } on 4xx
+        const data = await res.json().catch(() => ({}))
+        const msg = data?.errors?.map((err) => err.message).join(' ') || ''
+        setServerError(msg || '알 수 없는 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.')
+        setStatus('error')
+      }
+    } catch {
+      setServerError('네트워크 오류가 발생했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요.')
+      setStatus('error')
+    }
   }
 
   // ── Edit the inquiry category list ──
@@ -767,6 +829,8 @@ function Contact() {
     '기타 협업 문의',
   ]
 
+  const isSubmitting = status === 'submitting'
+
   return (
     <section id="contact" className="py-24 lg:py-32 bg-slate-50">
       <div className="max-w-7xl mx-auto px-6 lg:px-10">
@@ -774,11 +838,9 @@ function Contact() {
         {/* Section header */}
         <div className="mb-14 lg:mb-16">
           <SectionLabel text="Contact" />
-          {/* ── Edit section title ── */}
           <h2 className="mt-4 text-3xl lg:text-4xl font-black text-slate-900 leading-tight">
             문의하기
           </h2>
-          {/* ── Edit section sub-copy ── */}
           <p className="mt-3 text-slate-500 text-base lg:text-[17px] leading-relaxed">
             협업, 컨설팅, 교육 등 다양한 형태의 문의를 환영합니다.
           </p>
@@ -788,14 +850,11 @@ function Contact() {
 
           {/* ── Left: contact info ── */}
           <div className="lg:col-span-2 flex flex-col gap-10">
-
-            {/* Contact details */}
             <div>
               <h3 className="text-xs font-bold text-slate-400 mb-4 tracking-widest uppercase">
                 연락처
               </h3>
               <div className="space-y-4">
-
                 {/* ── Edit email address here ── */}
                 <ContactItem
                   label="이메일"
@@ -803,7 +862,6 @@ function Contact() {
                   href="mailto:contact@selcade.com"
                   note="※ 실제 이메일 주소로 교체해 주세요"
                 />
-
                 {/* ── Edit phone number here ── */}
                 <ContactItem
                   label="전화"
@@ -814,7 +872,6 @@ function Contact() {
               </div>
             </div>
 
-            {/* Inquiry types */}
             <div>
               <h3 className="text-xs font-bold text-slate-400 mb-4 tracking-widest uppercase">
                 문의 분야
@@ -828,66 +885,91 @@ function Contact() {
                 ))}
               </ul>
             </div>
-
           </div>
 
-          {/* ── Right: inquiry form ── */}
+          {/* ── Right: form / success / error ── */}
           <div className="lg:col-span-3">
-            {submitted ? (
-              /* Success message */
+
+            {/* ── Success state ── */}
+            {status === 'success' ? (
               <div className="bg-white rounded-xl p-12 border border-slate-100 text-center flex flex-col items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center">
-                  <div className="w-2 h-4 border-r-2 border-b-2 border-blue-600 rotate-45 -mt-1" />
+                {/* Checkmark icon (CSS-only) */}
+                <div className="w-14 h-14 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center">
+                  <div className="w-2.5 h-5 border-r-2 border-b-2 border-blue-600 rotate-45 -mt-1" />
                 </div>
                 <h3 className="text-lg font-bold text-slate-900">
                   문의가 접수되었습니다
                 </h3>
-                {/* ── Edit success message ── */}
-                <p className="text-slate-500 text-sm max-w-xs">
-                  빠른 시간 내에 연락드리겠습니다. 감사합니다.
+                <p className="text-slate-500 text-sm max-w-xs leading-relaxed">
+                  소중한 문의 감사합니다.<br />
+                  빠른 시간 내에 답변드리겠습니다.
                 </p>
+                <button
+                  onClick={() => setStatus('idle')}
+                  className="mt-2 text-xs text-blue-600 hover:text-blue-800 transition-colors underline underline-offset-2"
+                >
+                  새 문의 작성하기
+                </button>
               </div>
             ) : (
+              /* ── Form ── */
               <form
                 onSubmit={handleSubmit}
+                noValidate
                 className="bg-white rounded-xl p-8 lg:p-10 border border-slate-100 space-y-5"
               >
-                {/* Name + Phone row */}
+                {/* 소속 + 성함 row */}
                 <div className="grid sm:grid-cols-2 gap-4">
                   <FormField
-                    label="이름 / 담당자명"
+                    label="소속"
+                    name="org"
+                    type="text"
+                    placeholder="회사명 또는 기관명"
+                    value={form.org}
+                    onChange={handleChange}
+                    error={errors.org}
+                    required
+                  />
+                  <FormField
+                    label="성함"
                     name="name"
                     type="text"
                     placeholder="홍길동"
                     value={form.name}
                     onChange={handleChange}
+                    error={errors.name}
                     required
-                  />
-                  <FormField
-                    label="연락처"
-                    name="phone"
-                    type="tel"
-                    placeholder="010-0000-0000"
-                    value={form.phone}
-                    onChange={handleChange}
                   />
                 </div>
 
-                {/* Email */}
+                {/* 이메일주소 */}
                 <FormField
-                  label="이메일"
+                  label="이메일주소"
                   name="email"
                   type="email"
                   placeholder="example@company.com"
                   value={form.email}
                   onChange={handleChange}
+                  error={errors.email}
                   required
                 />
 
-                {/* Message */}
+                {/* 제목 */}
+                <FormField
+                  label="제목"
+                  name="subject"
+                  type="text"
+                  placeholder="문의 제목을 입력해 주세요."
+                  value={form.subject}
+                  onChange={handleChange}
+                  error={errors.subject}
+                  required
+                />
+
+                {/* 문의 내용 */}
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1.5">
-                    문의 내용
+                    문의 내용 <span className="text-red-400 ml-0.5">*</span>
                   </label>
                   <textarea
                     name="message"
@@ -895,17 +977,34 @@ function Contact() {
                     onChange={handleChange}
                     rows={5}
                     placeholder="문의하실 내용을 자유롭게 작성해 주세요."
-                    className="w-full px-4 py-2.5 text-sm border border-slate-200 rounded focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 transition text-slate-800 placeholder:text-slate-300 resize-none"
+                    className={`w-full px-4 py-2.5 text-sm border rounded focus:outline-none focus:ring-2 transition text-slate-800 placeholder:text-slate-300 resize-none ${
+                      errors.message
+                        ? 'border-red-300 focus:border-red-400 focus:ring-red-50'
+                        : 'border-slate-200 focus:border-blue-400 focus:ring-blue-50'
+                    }`}
                   />
+                  {errors.message && (
+                    <p className="mt-1 text-xs text-red-500">{errors.message}</p>
+                  )}
                 </div>
 
-                {/* Submit */}
+                {/* Server-level error banner */}
+                {status === 'error' && serverError && (
+                  <div className="flex items-start gap-3 bg-red-50 border border-red-100 rounded-lg px-4 py-3">
+                    <div className="w-4 h-4 flex-shrink-0 mt-0.5 rounded-full border border-red-400 flex items-center justify-center">
+                      <span className="text-red-500 text-[10px] font-black leading-none">!</span>
+                    </div>
+                    <p className="text-xs text-red-600 leading-relaxed">{serverError}</p>
+                  </div>
+                )}
+
+                {/* Submit button */}
                 <button
                   type="submit"
-                  className="w-full py-3.5 text-sm font-semibold bg-blue-700 text-white rounded hover:bg-blue-800 active:bg-blue-900 transition-colors duration-200"
+                  disabled={isSubmitting}
+                  className="w-full py-3.5 text-sm font-semibold rounded transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed bg-blue-700 text-white hover:bg-blue-800 active:bg-blue-900"
                 >
-                  {/* ── Edit submit button label ── */}
-                  문의 보내기
+                  {isSubmitting ? '전송 중...' : '문의 보내기'}
                 </button>
 
                 <p className="text-xs text-slate-400 text-center">
@@ -1008,12 +1107,15 @@ function ContactItem({ label, value, href, note }) {
 }
 
 /**
- * FormField — reusable labeled text input.
+ * FormField — reusable labeled text input with inline error display.
  */
-function FormField({ label, name, type, placeholder, value, onChange, required }) {
+function FormField({ label, name, type, placeholder, value, onChange, error, required }) {
   return (
     <div>
-      <label className="block text-xs font-semibold text-slate-600 mb-1.5">{label}</label>
+      <label className="block text-xs font-semibold text-slate-600 mb-1.5">
+        {label}
+        {required && <span className="text-red-400 ml-0.5">*</span>}
+      </label>
       <input
         type={type}
         name={name}
@@ -1021,8 +1123,14 @@ function FormField({ label, name, type, placeholder, value, onChange, required }
         onChange={onChange}
         placeholder={placeholder}
         required={required}
-        className="w-full px-4 py-2.5 text-sm border border-slate-200 rounded focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-50 transition text-slate-800 placeholder:text-slate-300"
+        aria-invalid={!!error}
+        className={`w-full px-4 py-2.5 text-sm border rounded focus:outline-none focus:ring-2 transition text-slate-800 placeholder:text-slate-300 ${
+          error
+            ? 'border-red-300 focus:border-red-400 focus:ring-red-50'
+            : 'border-slate-200 focus:border-blue-400 focus:ring-blue-50'
+        }`}
       />
+      {error && <p className="mt-1 text-xs text-red-500">{error}</p>}
     </div>
   )
 }
