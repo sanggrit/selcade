@@ -128,8 +128,8 @@ function Header() {
               key={href}
               href={href}
               onClick={(e) => { e.preventDefault(); handleNav(href) }}
-              className={`text-sm font-medium transition-colors duration-200 hover:opacity-60 ${
-                scrolled ? 'text-slate-600' : 'text-white/80'
+              className={`text-sm font-medium transition-colors duration-200 hover:opacity-70 ${
+                scrolled ? 'text-slate-700' : 'text-white/85'
               }`}
             >
               {label}
@@ -247,42 +247,42 @@ function Hero() {
 
           {/* ── Main headline — Edit the Korean headline here ── */}
           <h1 className="text-[2.6rem] lg:text-[3.8rem] font-black text-white leading-[1.15] tracking-tight mb-7">
-            브랜드 운영부터<br />
-            판매 실행까지,<br />
-            <span className="text-blue-400">실무로 연결합니다</span>
+            브랜드를 만들고,<br />
+            실제 판매까지 연결하는<br />
+            <span className="text-blue-400">실행형 비즈니스 파트너</span>
           </h1>
 
           {/* ── Subheadline — Edit the supporting copy here ── */}
           <p className="text-base lg:text-lg text-slate-300 leading-[1.85] mb-10 max-w-lg">
-            운영·디자인·물류·마케팅·유통·이커머스를<br className="hidden sm:block" />
-            하나의 실행 흐름으로 연결하는 비즈니스 파트너.<br />
-            이론이 아닌, 실제 운영 경험을 바탕으로 함께합니다.
+            아마존 판매·브랜드 운영·유통 실행·기업 교육까지<br className="hidden sm:block" />
+            분절된 서비스가 아닌, 하나의 흐름으로 연결합니다.<br />
+            2016년부터 직접 운영하고 판매해온 경험이 기반입니다.
           </p>
 
           {/* ── CTA buttons ── Edit button labels below ── */}
           <div className="flex flex-col sm:flex-row gap-3">
             {/* Primary CTA */}
             <button
-              onClick={() => smoothScroll('#business')}
-              className="px-7 py-3.5 text-sm font-semibold bg-blue-700 text-white rounded hover:bg-blue-800 active:bg-blue-900 transition-colors duration-200 text-center"
+              onClick={() => smoothScroll('#contact')}
+              className="px-7 py-3.5 text-sm font-semibold bg-blue-600 text-white rounded hover:bg-blue-500 active:bg-blue-700 transition-colors duration-200 text-center"
             >
-              사업영역 보기
+              상담 문의하기
             </button>
             {/* Secondary CTA */}
             <button
-              onClick={() => smoothScroll('#contact')}
-              className="px-7 py-3.5 text-sm font-semibold bg-transparent text-white border border-white/30 rounded hover:border-white/70 hover:bg-white/6 transition-all duration-200 text-center"
+              onClick={() => smoothScroll('#business')}
+              className="px-7 py-3.5 text-sm font-semibold bg-transparent text-white border border-white/50 rounded hover:border-white hover:bg-white/10 transition-all duration-200 text-center"
             >
-              협업 문의
+              셀케이드가 할 수 있는 일 보기
             </button>
           </div>
         </div>
 
-        {/* ── Since 2016 badge ── */}
-        <div className="mt-20 lg:mt-24 flex items-center gap-6">
-          <div className="h-px flex-1 max-w-[80px] bg-slate-700" />
-          <span className="text-slate-500 text-xs tracking-widest uppercase">
-            Amazon Selling Since 2016
+        {/* ── Credibility footnote ── */}
+        <div className="mt-16 lg:mt-20 flex items-center gap-4">
+          <div className="h-px w-10 bg-slate-700" />
+          <span className="text-slate-500 text-[11px] tracking-widest uppercase">
+            Amazon Selling Since 2016 &nbsp;·&nbsp; UNIF &nbsp;·&nbsp; DOWMI Best Seller #1
           </span>
         </div>
       </div>
@@ -300,6 +300,33 @@ function Hero() {
 }
 
 /* ─────────────────────────────────────────────────────────────
+   TRUST BAR
+   Compact proof strip directly below the hero.
+   ───────────────────────────────────────────────────────────── */
+function TrustBar() {
+  const proofs = [
+    { label: 'Amazon', detail: '2016년부터 직접 판매 운영' },
+    { label: 'UNIF', detail: '브랜드 운영대행' },
+    { label: '유니프·푸리티', detail: '운영대행 경험' },
+    { label: 'DOWMI', detail: '아마존 베스트셀러 1위' },
+  ]
+  return (
+    <div className="bg-[#0F172A] border-b border-slate-800">
+      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+        <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-slate-800">
+          {proofs.map(({ label, detail }) => (
+            <div key={label} className="py-5 px-6 text-center">
+              <div className="text-white text-sm font-bold leading-tight">{label}</div>
+              <div className="text-slate-400 text-xs mt-0.5">{detail}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ─────────────────────────────────────────────────────────────
    WHY SELCADE
    Four differentiators that reduce first-visit doubt.
    ───────────────────────────────────────────────────────────── */
@@ -309,27 +336,27 @@ function WhySelcade() {
   const items = [
     {
       num: '01',
-      title: '단순 컨설팅이 아닙니다',
+      title: '전략이 아니라, 실행합니다',
       desc:
-        '전략 제안에서 끝나는 컨설팅이 아닙니다. 셀케이드는 실제 브랜드를 기획하고, 상품을 팔고, 채널을 운영하며 쌓은 실무 경험으로 함께합니다.',
+        '제안서로 끝나지 않습니다. 아마존 판매, 브랜드 운영, 유통 실행을 직접 수행하며 만든 결과로 증명합니다.',
     },
     {
       num: '02',
-      title: '아마존에만 국한되지 않습니다',
+      title: '하나의 흐름으로 연결합니다',
       desc:
-        '2016년부터 쌓아온 아마존 판매 경험을 기반으로, 국내외 유통, 식음료 사업 운영, 브랜드 기획까지 비즈니스 전반을 이해합니다.',
+        '운영·디자인·물류·마케팅을 각각 따로 제공하지 않습니다. 실제 판매 흐름 안에서 유기적으로 연결해 실행합니다.',
     },
     {
       num: '03',
-      title: '분절된 서비스가 아닙니다',
+      title: '글로벌 현장 실적이 있습니다',
       desc:
-        '운영·디자인·물류·마케팅을 개별 기능으로 제공하는 것이 아니라, 실제 판매 흐름 안에서 유기적으로 연결하여 실행합니다.',
+        '2016년부터 아마존 직접 판매, DOWMI 베스트셀러 1위 달성, UNIF·Pooretty 운영대행까지 검증된 글로벌 실적을 보유합니다.',
     },
     {
       num: '04',
-      title: '경험에서 나오는 교육입니다',
+      title: '교육도 현장에서 나옵니다',
       desc:
-        '강의와 교육 또한 현장 운영 경험에서 출발합니다. 이론 중심의 아카데미가 아닌, 실무에서 검증된 내용으로 기업과 기관을 교육합니다.',
+        '직접 운영하고 판매한 경험을 기반으로 기업·기관에 실무 중심의 이커머스·브랜드·유통 교육을 제공합니다.',
     },
   ]
 
@@ -346,8 +373,8 @@ function WhySelcade() {
           </h2>
           {/* ── Edit section sub-copy here ── */}
           <p className="mt-3 text-slate-500 text-base lg:text-[17px] leading-relaxed max-w-xl">
-            셀케이드는 단순한 대행사나 컨설팅 업체와 다릅니다.<br />
-            실제 사업을 운영하고, 판매하고, 실행해온 경험이 기반입니다.
+            셀케이드는 단순한 대행사나 컨설팅 업체가 아닙니다.<br />
+            직접 브랜드를 운영하고, 판매하고, 성과를 만들어온 실행 파트너입니다.
           </p>
         </div>
 
@@ -480,43 +507,33 @@ function Business() {
   const areas = [
     {
       num: '01',
-      title: '글로벌 이커머스 운영',
-      desc: '아마존을 비롯한 글로벌 이커머스 채널의 판매 운영 및 계정 관리를 지원합니다.',
+      title: '글로벌 이커머스 · Amazon 판매',
+      desc: '2016년부터 아마존을 직접 운영해온 경험을 바탕으로 판매 전략, 계정 관리, 채널 최적화를 지원합니다.',
     },
     {
       num: '02',
-      title: 'Amazon 판매 운영 지원',
-      desc: '2016년부터 쌓아온 아마존 실전 경험을 바탕으로 판매 전략, 운영, 최적화를 지원합니다.',
+      title: '브랜드 기획 및 운영대행',
+      desc: 'UNIF·Pooretty 등 실제 브랜드 운영대행 경험으로, 브랜드 전략 수립부터 채널 관리까지 전반을 함께합니다.',
     },
     {
       num: '03',
       title: '국내외 유통 및 수출 실무',
-      desc: '국내외 유통 채널 발굴, 수출 실무 지원, 물류 연계까지 유통 흐름을 함께 구성합니다.',
+      desc: '국내외 유통 채널 발굴, 수출 실무 지원, 물류 연계까지 유통 흐름 전체를 함께 구성합니다.',
     },
     {
       num: '04',
-      title: '브랜드 운영 및 마케팅 실행',
-      desc: '브랜드 전략 수립부터 실제 마케팅 실행, 채널 관리까지 운영 전반을 지원합니다.',
+      title: '마케팅 실행 및 콘텐츠 운영',
+      desc: '브랜드 마케팅 전략부터 실제 콘텐츠 제작·채널 운영까지, 판매로 연결되는 마케팅을 실행합니다.',
     },
     {
       num: '05',
-      title: '식음료 비즈니스 운영',
-      desc: '식음료 제품의 기획, 유통, 판매 및 사업 운영 전반에 걸친 실질적인 경험을 보유합니다.',
+      title: '물류 · 운영 연계',
+      desc: '운영·디자인·물류를 분리하지 않고, 실제 판매 흐름 안에서 유기적으로 연결해 효율적으로 실행합니다.',
     },
     {
       num: '06',
-      title: '자사 브랜드 기획 및 판매',
-      desc: '자사 브랜드를 직접 기획하고 운영하며 쌓은 경험으로 브랜드 판매 실행을 지원합니다.',
-    },
-    {
-      num: '07',
-      title: '운영·디자인·물류·마케팅 연계',
-      desc: '각 기능을 개별적으로 제공하는 것이 아니라, 실제 판매 흐름 안에서 유기적으로 연결합니다.',
-    },
-    {
-      num: '08',
-      title: '기업·기관 강의 및 실무 교육',
-      desc: '이커머스·글로벌 판매·브랜드 운영에 관한 현장 경험 기반의 기업 및 기관 실무 교육.',
+      title: '기업 · 기관 실무 교육',
+      desc: '이커머스·브랜드 운영·글로벌 판매에 관한 현장 경험 기반의 실무 강의 및 기관 교육 프로그램.',
     },
   ]
 
@@ -538,8 +555,8 @@ function Business() {
           </p>
         </div>
 
-        {/* 4-column card grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+        {/* 3-column card grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5">
           {areas.map(({ num, title, desc }) => (
             <article
               key={num}
@@ -582,31 +599,31 @@ function Experience() {
   const proofs = [
     {
       tag: '글로벌 이커머스',
-      title: '아마존 · 글로벌 이커머스\n운영 경험',
+      title: 'Amazon\n2016년부터 직접 판매 운영',
       body:
-        '2016년부터 현재까지 아마존을 비롯한 글로벌 이커머스 채널에서 직접 상품을 판매하고 계정을 운영해온 현장 중심의 실무 경험을 보유하고 있습니다. 단순한 이론이나 대행 업무가 아닌, 직접 운영자로서 쌓아온 경험입니다.',
+        '2016년부터 현재까지 아마존에서 직접 상품을 기획하고 판매·계정을 운영해온 현장 실무 경험을 보유합니다. 이론이나 대행이 아닌, 직접 운영자로서 쌓아온 글로벌 이커머스 역량입니다.',
       highlight: false,
     },
     {
-      tag: 'F&B 운영',
-      title: 'Atrax F&B\n식음료 비즈니스 운영',
+      tag: '브랜드 운영대행',
+      title: 'UNIF\n브랜드 운영 및 채널 관리',
       body:
-        '식음료 브랜드 Atrax F&B를 직접 운영하며 제품 기획, 유통 채널 구성, 실제 판매 및 사업 운영 전반을 경험했습니다. 식음료 비즈니스의 실질적인 운영 구조와 흐름을 이해합니다.',
+        'UNIF 브랜드의 운영을 맡아 채널 관리, 마케팅 실행, 판매 운영 전반을 직접 수행했습니다. 브랜드 아이덴티티와 실질적인 판매 성과를 동시에 이끌어낸 운영대행 경험입니다.',
       highlight: false,
     },
     {
-      tag: '브랜드 운영',
-      title: 'Pooretty\n자사 브랜드 기획 및 운영',
+      tag: '자사 브랜드',
+      title: 'Pooretty (유니프)\n브랜드 기획 및 운영대행',
       body:
-        '자사 브랜드 Pooretty를 직접 기획하고 운영하면서 브랜드 아이덴티티 구성, 상품 판매, 마케팅 실행, 채널 관리까지 브랜드 운영의 전 과정을 직접 수행했습니다.',
+        '유니프·Pooretty 브랜드를 직접 기획하고 운영대행하며 브랜드 아이덴티티 구성, 상품 판매, 마케팅 실행, 채널 관리까지 브랜드 운영의 전 과정을 직접 수행했습니다.',
       highlight: false,
     },
     {
       tag: '판매 성과',
       // ── Edit DOWMI proof text here — keep the tone calm and factual ──
-      title: 'DOWMI\n아마존 카테고리 베스트셀러 1위',
+      title: 'DOWMI (동현정밀)\n아마존 카테고리 베스트셀러 1위',
       body:
-        '동현정밀(Donghyun Precision)의 DOWMI 브랜드 운영을 통해 아마존 해당 카테고리에서 베스트셀러 1위를 달성했습니다. 이 결과는 실제 판매 운영 역량과 채널 이해를 바탕으로 이룬 현장 성과입니다.',
+        'DONGHYUN PRECISION CO., LTD.의 DOWMI 브랜드 운영을 통해 아마존 해당 카테고리 베스트셀러 1위를 달성했습니다. 실제 판매 운영 역량과 채널 이해를 바탕으로 이룬 현장 성과입니다.',
       highlight: true,   // ← set true to apply the blue-tinted highlight style
     },
   ]
@@ -757,19 +774,19 @@ function MidCTA() {
       <div className="max-w-7xl mx-auto px-6 lg:px-10 text-center">
         {/* ── Edit headline ── */}
         <h2 className="text-2xl lg:text-3xl font-black text-white mb-4 leading-tight">
-          셀케이드와 함께 이야기해 보세요
+          브랜드 운영, 판매, 유통, 교육이<br />따로 놀고 있다면
         </h2>
         {/* ── Edit sub-copy ── */}
-        <p className="text-blue-100 text-base lg:text-lg max-w-lg mx-auto mb-8 leading-[1.85]">
-          브랜드 운영, 글로벌 판매, 유통 실행, 또는 실무 교육까지<br />
-          어떤 주제든 편하게 문의해 주세요.
+        <p className="text-blue-100 text-base lg:text-lg max-w-md mx-auto mb-8 leading-[1.85]">
+          이제는 연결할 때입니다.<br />
+          셀케이드가 하나의 흐름으로 만들어드립니다.
         </p>
         {/* ── Edit button label ── */}
         <button
           onClick={() => smoothScroll('#contact')}
           className="inline-block px-8 py-3.5 text-sm font-semibold bg-white text-blue-700 rounded hover:bg-blue-50 active:bg-blue-100 transition-colors duration-200"
         >
-          문의하기
+          상담 문의하기
         </button>
       </div>
     </section>
@@ -1301,6 +1318,7 @@ export default function App() {
     <div className="font-sans antialiased">
       <Header />
       <Hero />
+      <TrustBar />
       <WhySelcade />
       <About />
       <Business />
