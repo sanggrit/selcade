@@ -3,8 +3,7 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  // base: '/' for local / Firebase / Vercel / Netlify
-  // base: '/selcade/' is injected automatically by the GitHub Actions deploy workflow
-  // via the VITE_BASE_URL env variable — do not hard-code it here
-  base: process.env.VITE_BASE_URL ?? '/',
+  // Cloudflare Pages sets CF_PAGES=1 — always serve from root there.
+  // GitHub Actions sets VITE_BASE_URL=/selcade/ for GitHub Pages sub-path.
+  base: process.env.CF_PAGES ? '/' : (process.env.VITE_BASE_URL ?? '/'),
 })
