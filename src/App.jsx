@@ -992,7 +992,7 @@ function Contact() {
                     label="성함"
                     name="name"
                     type="text"
-                    placeholder="홍길동"
+                    placeholder="김상걸"
                     autoComplete="name"
                     value={form.name}
                     onChange={handleChange}
@@ -1130,9 +1130,9 @@ function Footer() {
             </div>
             {/* ── Edit company registration details below ── */}
             <div className="text-slate-600 text-xs leading-relaxed mt-1">
-              사업자등록번호: 427-86-03147 &nbsp;·&nbsp; 070-4170-0801
+              사업자등록번호: 427-86-03147 &nbsp;·&nbsp; 대표: 김상걸
               <br />
-              인천광역시 연수구 센트럴로 313, B611 &nbsp;·&nbsp; shawn@selcade.com
+              인천광역시 연수구 센트럴로 313, B611 &nbsp;·&nbsp; 070-4170-0801 &nbsp;·&nbsp; shawn@selcade.com
             </div>
           </div>
 
