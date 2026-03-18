@@ -907,19 +907,15 @@ function Contact() {
                 연락처
               </h3>
               <div className="space-y-4">
-                {/* ── Edit email address here ── */}
                 <ContactItem
                   label="이메일"
-                  value="contact@selcade.com"
-                  href="mailto:contact@selcade.com"
-                  note="※ 실제 이메일 주소로 교체해 주세요"
+                  value="shawn@selcade.com"
+                  href="mailto:shawn@selcade.com"
                 />
-                {/* ── Edit phone number here ── */}
                 <ContactItem
                   label="전화"
-                  value="010-0000-0000"
-                  href="tel:010-0000-0000"
-                  note="※ 실제 전화번호로 교체해 주세요"
+                  value="070-4170-0801"
+                  href="tel:070-4170-0801"
                 />
               </div>
             </div>
@@ -1134,9 +1130,9 @@ function Footer() {
             </div>
             {/* ── Edit company registration details below ── */}
             <div className="text-slate-600 text-xs leading-relaxed mt-1">
-              사업자등록번호: 000-00-00000 &nbsp;·&nbsp; 대표: 홍길동
+              사업자등록번호: 427-86-03147 &nbsp;·&nbsp; 070-4170-0801
               <br />
-              주소: [회사 주소 입력 예정] &nbsp;·&nbsp; 이메일: contact@selcade.com
+              인천광역시 연수구 센트럴로 313, B611 &nbsp;·&nbsp; shawn@selcade.com
             </div>
           </div>
 
@@ -1322,15 +1318,13 @@ export default function App() {
    "문의하기"          → CTA button label
 
  ── CONTACT ──────────────────────────────────────────────────
-   "contact@selcade.com"  → replace with real email (2 places)
-   "010-0000-0000"        → replace with real phone number (2 places)
+   "shawn@selcade.com"    → company email (Contact section + Footer)
+   "070-4170-0801"        → company phone (Contact section + Footer)
    inquiryTypes array     → edit the list of inquiry categories
-   note="※ ..."           → delete these placeholder notes when real info is in place
-   Footer company details → line that starts with "사업자등록번호:"
 
  ── FOOTER ───────────────────────────────────────────────────
-   "대표: 홍길동"     → replace with real representative name
-   "[회사 주소 입력 예정]"  → replace with real address
+   사업자등록번호: 427-86-03147
+   주소: 인천광역시 연수구 센트럴로 313, B611
    © line             → year auto-updates via new Date().getFullYear()
 
  ═══════════════════════════════════════════════════════════════
