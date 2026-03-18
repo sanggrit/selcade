@@ -1,12 +1,10 @@
 /**
  * Selcade Co., Ltd. — 셀케이드 주식회사
- * Single-page landing site: React + Tailwind CSS
- * Target audience: Korean manufacturers preparing for overseas sales
+ * React + Tailwind CSS single-page site
  *
  * Section order:
- *   Header → Hero → TrustBar → Problem → Role → SuitableCustomers →
- *   Services → Differentiator → TrackRecord → Process → About →
- *   FAQ → FinalCTA → Contact → Footer
+ *   Header → Hero → TrustBar → Services → TrackRecord →
+ *   Process → FAQ → FinalCTA → Contact → Footer
  */
 
 import { useState, useEffect, useRef, Component } from 'react'
@@ -45,8 +43,7 @@ class ErrorBoundary extends Component {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   HELPER: smooth-scroll to a section by id
-   Named smoothScroll (not scrollTo) to avoid shadowing window.scrollTo.
+   HELPER
    ───────────────────────────────────────────────────────────── */
 function smoothScroll(id) {
   document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -66,11 +63,10 @@ function Header() {
   }, [])
 
   const navLinks = [
-    { label: '서비스',        href: '#services' },
-    { label: '수행 이력',     href: '#track-record' },
-    { label: '진행 방식',     href: '#process' },
-    { label: '셀케이드 소개', href: '#about' },
-    { label: '문의하기',      href: '#contact' },
+    { label: '서비스',    href: '#services' },
+    { label: '수행 이력', href: '#track-record' },
+    { label: '진행 방식', href: '#process' },
+    { label: '문의하기',  href: '#contact' },
   ]
 
   const handleNav = (href) => {
@@ -82,34 +78,36 @@ function Header() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100'
+          ? 'bg-white/96 backdrop-blur-sm border-b border-slate-100'
           : 'bg-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between h-[70px]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 flex items-center justify-between h-[68px]">
 
         <a
           href="#hero"
           onClick={(e) => { e.preventDefault(); smoothScroll('#hero') }}
-          className="flex flex-col gap-0.5 select-none"
+          className="flex flex-col gap-[3px] select-none"
           aria-label="셀케이드 주식회사 홈으로"
         >
-          <span className={`text-base font-black tracking-logo transition-colors duration-300 ${scrolled ? 'text-slate-900' : 'text-white'}`}>
+          <span className={`text-[13px] font-black tracking-[0.2em] uppercase transition-colors duration-300 ${scrolled ? 'text-[#0F172A]' : 'text-white'}`}>
             SELCADE
           </span>
-          <span className={`text-[10px] tracking-widest font-medium transition-colors duration-300 ${scrolled ? 'text-slate-400' : 'text-white/55'}`}>
+          <span className={`text-[9px] tracking-[0.18em] font-medium transition-colors duration-300 ${scrolled ? 'text-slate-400' : 'text-white/50'}`}>
             셀케이드 주식회사
           </span>
         </a>
 
-        <nav className="hidden lg:flex items-center gap-8" aria-label="주요 메뉴">
+        <nav className="hidden lg:flex items-center gap-9" aria-label="주요 메뉴">
           {navLinks.map(({ label, href }) => (
             <a
               key={href}
               href={href}
               onClick={(e) => { e.preventDefault(); handleNav(href) }}
-              className={`text-sm font-medium transition-colors duration-200 hover:opacity-70 ${
-                scrolled ? 'text-slate-700' : 'text-white/85'
+              className={`text-[13px] font-medium transition-colors duration-200 ${
+                scrolled
+                  ? 'text-slate-600 hover:text-[#0F172A]'
+                  : 'text-white/75 hover:text-white'
               }`}
             >
               {label}
@@ -120,30 +118,34 @@ function Header() {
         <a
           href="#contact"
           onClick={(e) => { e.preventDefault(); handleNav('#contact') }}
-          className="hidden lg:block px-5 py-2 text-sm font-semibold rounded bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-200"
+          className={`hidden lg:block px-5 py-2 text-[13px] font-semibold rounded transition-colors duration-200 ${
+            scrolled
+              ? 'bg-[#0F172A] text-white hover:bg-slate-800'
+              : 'bg-white text-[#0F172A] hover:bg-slate-100'
+          }`}
         >
-          제조사 상담 문의
+          상담 문의
         </a>
 
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="모바일 메뉴 열기"
-          className="lg:hidden flex flex-col justify-center items-center w-8 h-8 gap-1.5"
+          className="lg:hidden flex flex-col justify-center items-center w-8 h-8 gap-[5px]"
         >
-          <span className={`block w-5 h-0.5 transition-all duration-300 origin-center ${scrolled ? 'bg-slate-800' : 'bg-white'} ${menuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-          <span className={`block w-5 h-0.5 transition-all duration-300 ${scrolled ? 'bg-slate-800' : 'bg-white'} ${menuOpen ? 'opacity-0 scale-x-0' : ''}`} />
-          <span className={`block w-5 h-0.5 transition-all duration-300 origin-center ${scrolled ? 'bg-slate-800' : 'bg-white'} ${menuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+          <span className={`block w-5 h-px transition-all duration-300 origin-center ${scrolled ? 'bg-slate-800' : 'bg-white'} ${menuOpen ? 'rotate-45 translate-y-[7px]' : ''}`} />
+          <span className={`block w-5 h-px transition-all duration-300 ${scrolled ? 'bg-slate-800' : 'bg-white'} ${menuOpen ? 'opacity-0 scale-x-0' : ''}`} />
+          <span className={`block w-5 h-px transition-all duration-300 origin-center ${scrolled ? 'bg-slate-800' : 'bg-white'} ${menuOpen ? '-rotate-45 -translate-y-[7px]' : ''}`} />
         </button>
       </div>
 
       <div className={`lg:hidden overflow-hidden transition-all duration-300 ${menuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'}`}>
-        <div className="bg-white border-t border-slate-100 px-6 py-5 flex flex-col gap-0.5">
+        <div className="bg-white border-t border-slate-100 px-6 py-4 flex flex-col">
           {navLinks.map(({ label, href }) => (
             <a
               key={href}
               href={href}
               onClick={(e) => { e.preventDefault(); handleNav(href) }}
-              className="text-slate-700 text-sm font-medium py-3 border-b border-slate-50 last:border-0 hover:text-blue-700 transition-colors"
+              className="text-slate-700 text-sm font-medium py-3.5 border-b border-slate-50 last:border-0"
             >
               {label}
             </a>
@@ -151,9 +153,9 @@ function Header() {
           <a
             href="#contact"
             onClick={(e) => { e.preventDefault(); handleNav('#contact') }}
-            className="mt-4 block text-center px-5 py-3 text-sm font-semibold rounded bg-blue-600 text-white"
+            className="mt-4 block text-center px-5 py-3 text-sm font-semibold rounded bg-[#0F172A] text-white"
           >
-            제조사 상담 문의
+            상담 문의
           </a>
         </div>
       </div>
@@ -170,80 +172,51 @@ function Hero() {
       id="hero"
       className="relative min-h-screen flex items-center bg-[#0F172A] overflow-hidden"
     >
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div
-          className="absolute inset-0 opacity-[0.04]"
-          style={{
-            backgroundImage:
-              'linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)',
-            backgroundSize: '72px 72px',
-          }}
-        />
-        <div className="absolute top-[-10%] right-[-5%] w-[700px] h-[700px] rounded-full bg-blue-800/20 blur-3xl" />
-        <div className="absolute bottom-[-15%] left-[-8%] w-[500px] h-[500px] rounded-full bg-slate-700/40 blur-3xl" />
-      </div>
+      {/* Single subtle ambient glow — keeps it from feeling flat */}
+      <div
+        className="absolute top-0 right-0 w-[800px] h-[800px] rounded-full bg-blue-900/25 blur-3xl -translate-y-1/3 translate-x-1/3 pointer-events-none"
+        aria-hidden="true"
+      />
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-10 pt-36 pb-28 lg:pt-48 lg:pb-36">
-        <div className="max-w-3xl">
+      <div className="relative max-w-7xl mx-auto px-6 lg:px-12 pt-32 pb-24 lg:pt-44 lg:pb-32">
 
-          <div className="inline-flex items-center gap-3 mb-8" aria-hidden="true">
-            <div className="w-8 h-px bg-blue-500" />
-            <span className="text-blue-400 text-xs font-semibold tracking-[0.2em] uppercase">
-              SELCADE Co., Ltd.
-            </span>
-          </div>
+        <p className="text-blue-400 text-[11px] font-semibold tracking-[0.28em] uppercase mb-8">
+          SELCADE Co., Ltd.
+        </p>
 
-          <h1 className="text-[2.4rem] lg:text-[3.5rem] font-black text-white leading-[1.15] tracking-tight mb-7">
-            제조사의 제품을<br />
-            해외 판매로 연결하는<br />
-            <span className="text-[#60A5FA]">실행형 글로벌 이커머스 파트너</span>
-          </h1>
+        <h1 className="text-[2.75rem] lg:text-[5rem] font-black text-white leading-[1.08] tracking-tight mb-8 max-w-4xl">
+          제조사의 제품을<br />
+          해외 판매로 연결합니다
+        </h1>
 
-          <p className="text-base lg:text-lg text-slate-300 leading-[1.85] mb-10 max-w-xl">
-            셀케이드는 자사 상품의 해외 진출을 준비하는 제조사를 위해<br className="hidden sm:block" />
-            아마존 판매 전략, 콘텐츠 기획, 운영, 교육까지<br className="hidden sm:block" />
-            실행 중심의 서비스를 제공합니다.
-          </p>
+        <p className="text-slate-400 text-base lg:text-lg leading-[1.85] mb-12 max-w-lg">
+          아마존 판매 전략, 콘텐츠 기획, 운영, 교육까지 —<br />
+          2016년부터 쌓아온 실행 경험을 바탕으로 함께합니다.
+        </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 mb-12">
-            <button
-              onClick={() => smoothScroll('#contact')}
-              className="px-7 py-3.5 text-sm font-semibold bg-[#2563EB] text-white rounded hover:bg-blue-500 active:bg-blue-700 transition-colors duration-200 text-center"
-            >
-              제조사 상담 문의하기
-            </button>
-            <button
-              onClick={() => smoothScroll('#services')}
-              className="px-7 py-3.5 text-sm font-semibold bg-transparent text-white border border-white/50 rounded hover:border-white hover:bg-white/10 transition-all duration-200 text-center"
-            >
-              서비스 보기
-            </button>
-          </div>
-
-          {/* Trust points */}
-          <div className="border-t border-slate-800 pt-8 grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {[
-              '2016년 아마존 글로벌 셀링 시작',
-              '2024년 제조사 자사제품 아마존 베스트셀러 1위 달성',
-              '아마존 운영대행 · 브랜드 운영 · 채널 운영대행 수행',
-              '대학 · 무역 유관기관 · aT센터 강의 및 컨설팅 수행',
-            ].map((point) => (
-              <div key={point} className="flex items-start gap-2.5">
-                <div className="w-1 h-1 rounded-full bg-[#60A5FA] flex-shrink-0 mt-[7px]" />
-                <span className="text-slate-400 text-sm leading-snug">{point}</span>
-              </div>
-            ))}
-          </div>
-
+        <div className="flex flex-wrap gap-3">
+          <button
+            onClick={() => smoothScroll('#contact')}
+            className="px-7 py-3.5 text-sm font-semibold bg-white text-[#0F172A] rounded hover:bg-slate-100 active:bg-slate-200 transition-colors duration-200"
+          >
+            제조사 상담 문의하기
+          </button>
+          <button
+            onClick={() => smoothScroll('#services')}
+            className="px-7 py-3.5 text-sm font-semibold text-white border border-white/35 rounded hover:border-white/70 hover:bg-white/8 transition-all duration-200"
+          >
+            서비스 보기
+          </button>
         </div>
+
       </div>
 
       <div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-30"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-20"
         aria-hidden="true"
       >
         <div className="w-px h-10 bg-white animate-pulse" />
-        <span className="text-white text-[9px] tracking-[0.25em] uppercase">Scroll</span>
+        <span className="text-white text-[9px] tracking-[0.3em] uppercase">Scroll</span>
       </div>
     </section>
   )
@@ -251,22 +224,23 @@ function Hero() {
 
 /* ─────────────────────────────────────────────────────────────
    TRUST BAR
+   4 key credentials, white background, thin dividers.
    ───────────────────────────────────────────────────────────── */
 function TrustBar() {
-  const proofs = [
-    { label: 'Since 2016',       detail: '글로벌 이커머스 실무' },
-    { label: 'Amazon #1',        detail: '제조사 자사제품 베스트셀러' },
-    { label: 'B2B 강의·컨설팅',  detail: '대학·기관·무역협회 수행' },
-    { label: '실행 중심',        detail: '운영·콘텐츠·교육 연결' },
+  const stats = [
+    { value: '2016',    label: '아마존 글로벌 셀링 시작' },
+    { value: 'Amazon',  label: '카테고리 베스트셀러 1위' },
+    { value: '9+',      label: '강의·컨설팅 수행 기관' },
+    { value: '실행',     label: '운영·콘텐츠·교육 연결' },
   ]
   return (
-    <div className="bg-[#0F172A] border-b border-slate-800">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-slate-800">
-          {proofs.map(({ label, detail }) => (
-            <div key={label} className="py-5 px-6 text-center">
-              <div className="text-white text-sm font-bold leading-tight">{label}</div>
-              <div className="text-slate-400 text-xs mt-0.5">{detail}</div>
+    <div className="bg-white border-b border-slate-100">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-slate-100">
+          {stats.map(({ value, label }) => (
+            <div key={label} className="py-8 px-6 lg:px-10 text-center">
+              <div className="text-xl lg:text-2xl font-black text-[#0F172A] mb-1 tracking-tight">{value}</div>
+              <div className="text-[11px] lg:text-xs text-slate-500 tracking-wide">{label}</div>
             </div>
           ))}
         </div>
@@ -276,276 +250,66 @@ function TrustBar() {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   PROBLEM RECOGNITION
-   ───────────────────────────────────────────────────────────── */
-function Problem() {
-  return (
-    <section id="problem" className="py-24 lg:py-32 bg-[#F8FAFC]">
-      <div className="max-w-4xl mx-auto px-6 lg:px-10">
-        <SectionLabel text="Problem" />
-        <h2 className="mt-4 text-2xl lg:text-3xl font-black text-[#0F172A] leading-tight mb-8 max-w-2xl">
-          좋은 제품이 있어도,<br />
-          판매 체계가 없으면 해외에서는 팔리지 않습니다
-        </h2>
-        <div className="space-y-5 text-[#475569] text-[15px] lg:text-base leading-[1.9]">
-          <p>
-            많은 제조사는 우수한 제품과 생산 역량을 갖추고 있어도
-            해외 판매를 실제로 시작하는 단계에서 막히곤 합니다.
-          </p>
-          <p>
-            시장 적합성 검토, 판매 채널 선정, 상세페이지와 콘텐츠 구성,
-            운영 구조, 물류 흐름까지 정리되지 않으면
-            좋은 제품도 해외 시장에서 성과로 이어지기 어렵습니다.
-          </p>
-          <p className="font-semibold text-[#0F172A]">
-            해외 판매의 핵심은 단순 입점이 아니라<br />
-            어떤 제품을, 어떤 방식으로, 어떤 구조로 팔 것인가에 있습니다.
-          </p>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ─────────────────────────────────────────────────────────────
-   SELCADE'S ROLE
-   ───────────────────────────────────────────────────────────── */
-function Role() {
-  return (
-    <section id="role" className="py-24 lg:py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-
-          <div>
-            <SectionLabel text="Our Role" />
-            <h2 className="mt-4 text-2xl lg:text-3xl font-black text-[#0F172A] leading-tight mb-6">
-              셀케이드는 제품을 등록하는 데서<br />그치지 않습니다
-            </h2>
-            <div className="space-y-4 text-[#475569] text-[15px] leading-[1.9]">
-              <p>
-                해외 판매는 단순 입점만으로 성과가 나지 않습니다.
-                제품이 어떤 방식으로 시장에 소개되어야 하는지,
-                어떤 구조로 운영되어야 하는지,
-                무엇을 먼저 준비해야 하는지까지 함께 설계해야 합니다.
-              </p>
-              <p>
-                셀케이드는 제조사의 제품이 해외 시장에서
-                판매 가능한 형태로 안착할 수 있도록
-                전략부터 실행까지 연결합니다.
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              { num: '①', label: '시장성 검토',   desc: '제품과 시장의 적합성 분석' },
-              { num: '②', label: '콘텐츠 설계',   desc: '판매로 연결되는 상세페이지 구성' },
-              { num: '③', label: '운영 구조화',   desc: '지속 판매가 가능한 운영 체계 수립' },
-              { num: '④', label: '실행 지원',     desc: '전략에서 실행까지 단계별 연결' },
-            ].map(({ num, label, desc }) => (
-              <div key={label} className="bg-[#F8FAFC] rounded-xl p-6 border border-slate-200">
-                <div className="text-[#2563EB] text-lg font-black mb-2">{num}</div>
-                <div className="text-sm font-bold text-[#0F172A] mb-1">{label}</div>
-                <div className="text-xs text-[#475569] leading-snug">{desc}</div>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ─────────────────────────────────────────────────────────────
-   SUITABLE CUSTOMERS
-   ───────────────────────────────────────────────────────────── */
-function SuitableCustomers() {
-  const items = [
-    '자사 제품은 있지만 해외 판매를 어디서부터 시작해야 할지 명확하지 않은 제조사',
-    '아마존 진출을 검토 중이지만 제품 등록 이후 운영 구조까지 감이 잡히지 않는 기업',
-    '해외 판매용 상세페이지, 이미지, 메시지 구성이 준비되지 않은 제조사',
-    '수출은 가능하지만 지속적인 판매 체계까지 연결되지 못한 기업',
-    '제품과 시장을 함께 이해하는 실행형 파트너가 필요한 기업',
-    '내부 담당자의 실무 역량 강화와 교육이 함께 필요한 기업',
-  ]
-
-  return (
-    <section id="suitable" className="py-24 lg:py-32 bg-[#0F172A]">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-
-        <div className="mb-12 lg:mb-14">
-          <SectionLabel text="Who We Help" dark />
-          <h2 className="mt-4 text-2xl lg:text-3xl font-black text-white leading-tight max-w-2xl">
-            이런 상황이라면,<br />
-            지금 필요한 것은 실행 가능한 해외 판매 전략입니다
-          </h2>
-          <p className="mt-3 text-slate-400 text-[15px] max-w-xl leading-relaxed">
-            제품 경쟁력만으로 해외 판매가 시작되지는 않습니다.
-            시장 적합성, 채널 전략, 콘텐츠, 운영 방식이 정리되지 않으면
-            좋은 제품도 해외에서 성과로 이어지기 어렵습니다.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-10">
-          {items.map((item) => (
-            <div
-              key={item}
-              className="flex items-start gap-3 bg-slate-800/50 border border-slate-700/50 rounded-lg px-5 py-4"
-            >
-              <div className="w-5 h-5 flex-shrink-0 mt-0.5 rounded-full bg-blue-600/20 border border-blue-500/30 flex items-center justify-center">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#60A5FA]" />
-              </div>
-              <span className="text-slate-300 text-sm leading-relaxed">{item}</span>
-            </div>
-          ))}
-        </div>
-
-        <div className="bg-blue-900/30 border border-blue-700/40 rounded-xl px-7 py-5">
-          <p className="text-blue-200 text-sm lg:text-[15px] leading-relaxed">
-            셀케이드는 제조사의 제품이 해외 시장에서 실제 판매 가능한 형태로 정리될 수 있도록
-            실무 중심으로 지원합니다.
-          </p>
-        </div>
-
-      </div>
-    </section>
-  )
-}
-
-/* ─────────────────────────────────────────────────────────────
    SERVICES
+   4 cards in a 2×2 grid. Blue top-rule accent, no decorative numbers.
+   Gap-px trick creates clean 1px grid lines between cells.
    ───────────────────────────────────────────────────────────── */
 function Services() {
   const services = [
     {
-      num: '01',
-      title: '시장성과 진출 방향 정리',
-      desc: '어떤 제품이 어떤 시장에서 가능성이 있는지 검토하고, 진출 우선순위와 판매 방향을 정리합니다.',
+      title: '시장성 분석 및 진출 전략',
+      desc:  '어떤 제품이 어떤 시장에서 가능성이 있는지 검토하고 진출 방향과 채널 우선순위를 정리합니다.',
     },
     {
-      num: '02',
-      title: '판매되는 상세페이지와 콘텐츠 기획',
-      desc: '해외 고객이 제품의 장점을 명확하게 이해할 수 있도록 상세페이지 구조, 이미지 방향, 메시지를 설계합니다.',
+      title: '상세페이지 및 콘텐츠 기획',
+      desc:  '해외 고객이 제품의 가치를 명확히 이해할 수 있도록 페이지 구조, 이미지 방향, 메시지를 설계합니다.',
     },
     {
-      num: '03',
-      title: '운영 가능한 판매 구조 구축',
-      desc: '입점 이후 실제 판매가 이어질 수 있도록 운영 흐름, 채널 구조, 실행 방식을 함께 점검합니다.',
+      title: '아마존 운영 구조 구축',
+      desc:  '입점 이후 판매가 지속될 수 있도록 운영 흐름, 채널 구조, 실행 방식을 함께 점검합니다.',
     },
     {
-      num: '04',
-      title: '내부 역량 강화를 위한 교육 지원',
-      desc: '대표와 실무 담당자가 해외 판매를 이해하고 실행할 수 있도록 실무형 교육과 강의를 제공합니다.',
+      title: '실무 교육 및 강의',
+      desc:  '대표와 담당자가 해외 판매를 직접 이해하고 실행할 수 있도록 현장 기반의 교육을 제공합니다.',
     },
   ]
 
   return (
-    <section id="services" className="py-24 lg:py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+    <section id="services" className="py-28 lg:py-36 bg-white">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
-        <div className="mb-14 lg:mb-16">
-          <SectionLabel text="Services" />
-          <h2 className="mt-4 text-3xl lg:text-4xl font-black text-[#0F172A] leading-tight">
-            해외 판매를 위해 필요한<br />핵심 영역만 정리합니다
-          </h2>
+        <div className="mb-16 lg:mb-20 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+          <div>
+            <SectionLabel text="Services" />
+            <h2 className="mt-4 text-[1.9rem] lg:text-[2.75rem] font-black text-[#0F172A] leading-tight">
+              해외 판매를 위한 핵심 서비스
+            </h2>
+          </div>
+          <button
+            onClick={() => smoothScroll('#contact')}
+            className="self-start lg:self-auto text-sm font-semibold text-[#2563EB] hover:underline underline-offset-4 transition-all flex items-center gap-1.5 group"
+          >
+            상담 문의하기
+            <span className="group-hover:translate-x-1 transition-transform duration-200 inline-block">→</span>
+          </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
-          {services.map(({ num, title, desc }) => (
+        {/* gap-px on a slate bg creates 1px grid lines between cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-slate-100">
+          {services.map(({ title, desc }) => (
             <article
-              key={num}
-              className="bg-[#F8FAFC] rounded-xl p-8 border border-slate-200 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+              key={title}
+              className="bg-white p-10 lg:p-12 hover:bg-slate-50 transition-colors duration-200 group"
             >
-              <div className="text-blue-200 font-black text-5xl leading-none mb-5 select-none">{num}</div>
-              <h3 className="text-base font-bold text-[#0F172A] mb-3 leading-snug">{title}</h3>
-              <p className="text-[#475569] text-sm leading-relaxed">{desc}</p>
+              <div className="w-7 h-[2px] bg-[#2563EB] mb-7" />
+              <h3 className="text-[15px] lg:text-base font-bold text-[#0F172A] mb-3 leading-snug">
+                {title}
+              </h3>
+              <p className="text-[#475569] text-sm leading-[1.85]">{desc}</p>
             </article>
           ))}
         </div>
 
-        <div className="mt-12 flex justify-center">
-          <button
-            onClick={() => smoothScroll('#contact')}
-            className="px-8 py-3.5 text-sm font-semibold bg-[#2563EB] text-white rounded hover:bg-blue-700 transition-colors duration-200"
-          >
-            제조사 상담 문의하기
-          </button>
-        </div>
-
-      </div>
-    </section>
-  )
-}
-
-/* ─────────────────────────────────────────────────────────────
-   DIFFERENTIATOR
-   ───────────────────────────────────────────────────────────── */
-function Differentiator() {
-  const points = [
-    {
-      num: '01',
-      title: '전략이 아니라, 실행합니다',
-      desc: '제안서로 끝나지 않습니다. 아마존 판매, 브랜드 운영, 유통 실행을 직접 수행하며 만든 결과로 증명합니다.',
-    },
-    {
-      num: '02',
-      title: '입점 이후까지 봅니다',
-      desc: '채널 등록에서 끝나지 않습니다. 판매가 실제로 이어지는 구조를 함께 설계하고 실행합니다.',
-    },
-    {
-      num: '03',
-      title: '제조사 특성을 이해합니다',
-      desc: '생산 역량은 있지만 판매 구조가 없는 제조사의 상황을 이해하고, 현실적인 출발점에서 시작합니다.',
-    },
-    {
-      num: '04',
-      title: '교육도 현장에서 나옵니다',
-      desc: '직접 운영하고 판매한 경험을 기반으로 기업·기관에 실무 중심의 이커머스·브랜드·유통 교육을 제공합니다.',
-    },
-  ]
-
-  return (
-    <section id="differentiator" className="py-24 lg:py-32 bg-[#F8FAFC]">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-
-          <div>
-            <SectionLabel text="Why Selcade" />
-            <h2 className="mt-4 text-2xl lg:text-3xl font-black text-[#0F172A] leading-tight mb-6">
-              제조사에게 필요한 것은<br />이론보다 실행 경험입니다
-            </h2>
-            <div className="space-y-4 text-[#475569] text-[15px] leading-[1.9]">
-              <p>
-                셀케이드는 2016년부터 글로벌 이커머스 실무를 이어오며
-                판매, 운영, 콘텐츠, 교육, 컨설팅을 함께 수행해왔습니다.
-              </p>
-              <p>
-                특히 2024년에는 국내외 판매 경험이 전혀 없던 제조사 자사제품을
-                아마존 베스트셀러 랭킹 1위까지 끌어올린 운영 성과를 만들었습니다.
-              </p>
-              <p className="font-semibold text-[#0F172A]">
-                이 경험은 단순한 조언이 아니라
-                실행 가능한 방향을 제시하는 기반이 됩니다.
-              </p>
-            </div>
-          </div>
-
-          <div className="space-y-4">
-            {points.map(({ num, title, desc }) => (
-              <div key={num} className="flex gap-4 bg-white rounded-xl p-6 border border-slate-200">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center mt-0.5">
-                  <span className="text-[#2563EB] text-[10px] font-black">{num}</span>
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold text-[#0F172A] mb-1.5">{title}</h3>
-                  <p className="text-[#475569] text-xs leading-relaxed">{desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-        </div>
       </div>
     </section>
   )
@@ -553,69 +317,61 @@ function Differentiator() {
 
 /* ─────────────────────────────────────────────────────────────
    TRACK RECORD
+   4 summary badges + clean timeline list.
    ───────────────────────────────────────────────────────────── */
 function TrackRecord() {
-  const history = [
-    { year: '2016',  text: '아마존 글로벌 셀링 시작' },
-    { year: '2019',  text: '동국대학교 · 신라대학교 · 충북대학교 · 숭실대학교 GTEP 전자상거래 강의 수행' },
-    { year: '2019',  text: '신라대학교 · 충북대학교 GTEP 전자상거래 멘토링 수행' },
-    { year: '2019',  text: 'KITA 글로벌 이커머스 스쿨 강의 및 멘토링 수행' },
-    { year: '2019',  text: '경북 청년무역사관학교 아마존 강의 수행' },
-    { year: '2019',  text: '부산무역협회 글로벌 셀링 교육 아마존 강의 수행' },
-    { year: '2019',  text: '충북무역협회 글로벌 셀링 지원사업 컨설팅 수행' },
-    { year: '2019~', text: '아마존 브랜드 운영대행 수행' },
-    { year: '2021~', text: 'aT센터 아마존 글로벌 셀링 강의 수행' },
-    { year: '2023~', text: '식음료 브랜드 운영 총괄' },
-    { year: '2024~', text: '네이버 · 쿠팡 · 자사몰 운영대행 수행' },
-    { year: '2024',  text: '국내외 판매 경험이 전혀 없던 제조사 자사제품 아마존 베스트셀러 1위 달성', highlight: true },
+  const badges = [
+    { label: 'Since 2016',      sub: '글로벌 이커머스 실무' },
+    { label: 'Amazon #1',       sub: '제조사 자사제품 운영 성과' },
+    { label: 'B2B Experience',  sub: '대학·기관·무역 유관기관' },
+    { label: 'Execution-Based', sub: '운영·콘텐츠·마케팅·교육' },
   ]
 
-  const badges = [
-    { label: 'Since 2016',        sub: '글로벌 이커머스 실무' },
-    { label: 'Amazon #1',         sub: '제조사 자사제품 운영 성과' },
-    { label: 'B2B Experience',    sub: '대학·기관·무역 유관기관 강의' },
-    { label: 'Execution-Based',   sub: '운영·콘텐츠·마케팅·교육 연결' },
+  const history = [
+    { year: '2016',   text: '아마존 글로벌 셀링 시작' },
+    { year: '2019',   text: '동국대 · 신라대 · 충북대 · 숭실대 GTEP 전자상거래 강의 및 멘토링' },
+    { year: '2019',   text: 'KITA 글로벌 이커머스 스쿨 강의 및 멘토링' },
+    { year: '2019',   text: '경북 청년무역사관학교 아마존 강의' },
+    { year: '2019',   text: '부산무역협회 · 충북무역협회 글로벌 셀링 강의 및 컨설팅' },
+    { year: '2019 ~', text: '아마존 브랜드 운영대행 수행' },
+    { year: '2021 ~', text: 'aT센터 아마존 글로벌 셀링 강의 수행' },
+    { year: '2023 ~', text: '식음료 브랜드 운영 총괄' },
+    { year: '2024 ~', text: '네이버 · 쿠팡 · 자사몰 운영대행 수행' },
+    { year: '2024',   text: '국내외 판매 경험이 없던 제조사 자사제품 아마존 카테고리 베스트셀러 1위 달성', highlight: true },
   ]
 
   return (
-    <section id="track-record" className="py-24 lg:py-32 bg-[#0F172A]">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+    <section id="track-record" className="py-28 lg:py-36 bg-[#F8FAFC]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
-        <div className="mb-12 lg:mb-14">
-          <SectionLabel text="Track Record" dark />
-          <h2 className="mt-4 text-3xl lg:text-4xl font-black text-white leading-tight">
+        <div className="mb-14 lg:mb-16">
+          <SectionLabel text="Track Record" />
+          <h2 className="mt-4 text-[1.9rem] lg:text-[2.75rem] font-black text-[#0F172A] leading-tight">
             신뢰는 수행 이력에서 만들어집니다
           </h2>
-          <p className="mt-3 text-slate-400 text-[15px] max-w-xl leading-relaxed">
-            셀케이드의 역량은 실제 사업 운영을 통해 쌓인 것입니다.
-          </p>
         </div>
 
-        {/* Badges */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-12">
+        {/* Summary badges */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-14">
           {badges.map(({ label, sub }) => (
-            <div key={label} className="bg-slate-800/60 border border-slate-700/50 rounded-xl p-5 text-center">
-              <div className="text-white font-bold text-sm mb-1">{label}</div>
-              <div className="text-slate-400 text-xs">{sub}</div>
+            <div key={label} className="bg-white border border-slate-200 rounded-lg p-5 lg:p-6">
+              <div className="text-[13px] font-bold text-[#0F172A] mb-1">{label}</div>
+              <div className="text-[11px] text-slate-500 leading-snug">{sub}</div>
             </div>
           ))}
         </div>
 
         {/* Timeline */}
-        <div className="space-y-2.5">
+        <div className="divide-y divide-slate-200">
           {history.map(({ year, text, highlight }) => (
             <div
               key={text}
-              className={`flex gap-5 rounded-lg px-5 py-4 border ${
-                highlight
-                  ? 'bg-blue-900/40 border-blue-600/50'
-                  : 'bg-slate-800/40 border-slate-700/40'
-              }`}
+              className={`flex gap-8 py-4 lg:py-5 ${highlight ? 'bg-blue-50 -mx-4 px-4 rounded' : ''}`}
             >
-              <div className={`flex-shrink-0 text-xs font-bold w-12 mt-0.5 ${highlight ? 'text-[#60A5FA]' : 'text-slate-500'}`}>
+              <div className={`flex-shrink-0 text-[11px] font-semibold w-14 pt-0.5 tracking-wide ${highlight ? 'text-[#2563EB]' : 'text-slate-400'}`}>
                 {year}
               </div>
-              <div className={`text-sm leading-relaxed ${highlight ? 'text-blue-200 font-semibold' : 'text-slate-300'}`}>
+              <div className={`text-sm leading-relaxed ${highlight ? 'text-[#0F172A] font-semibold' : 'text-[#475569]'}`}>
                 {text}
               </div>
             </div>
@@ -629,96 +385,42 @@ function TrackRecord() {
 
 /* ─────────────────────────────────────────────────────────────
    PROCESS
+   4 steps, clean numbered layout.
    ───────────────────────────────────────────────────────────── */
 function Process() {
   const steps = [
     { num: '01', title: '상담', desc: '현재 제품, 목표 시장, 고민 지점을 확인합니다.' },
     { num: '02', title: '진단', desc: '시장성과 판매 구조를 실무 기준으로 검토합니다.' },
-    { num: '03', title: '제안', desc: '필요한 범위에 맞춰 컨설팅, 운영, 콘텐츠, 교육 방향을 제안합니다.' },
+    { num: '03', title: '제안', desc: '필요한 범위에 맞춰 운영, 콘텐츠, 교육 방향을 제안합니다.' },
     { num: '04', title: '실행', desc: '우선순위에 맞춰 단계적으로 진행합니다.' },
   ]
 
   return (
-    <section id="process" className="py-24 lg:py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+    <section id="process" className="py-28 lg:py-36 bg-white">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
-        <div className="mb-14 lg:mb-16">
+        <div className="mb-16 lg:mb-20">
           <SectionLabel text="Process" />
-          <h2 className="mt-4 text-3xl lg:text-4xl font-black text-[#0F172A] leading-tight">
+          <h2 className="mt-4 text-[1.9rem] lg:text-[2.75rem] font-black text-[#0F172A] leading-tight">
             복잡하게 시작할 필요는 없습니다
           </h2>
+          <p className="mt-3 text-[#475569] text-[15px] max-w-lg leading-relaxed">
+            처음부터 큰 범위로 시작하지 않아도 됩니다.
+            현재 상황에 맞는 현실적인 출발점을 함께 정리합니다.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 mb-10">
+        {/* Steps grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-slate-100">
           {steps.map(({ num, title, desc }) => (
-            <div key={num} className="bg-[#F8FAFC] rounded-xl p-7 border border-slate-200">
-              <div className="w-10 h-10 rounded-full bg-[#2563EB] flex items-center justify-center mb-5">
-                <span className="text-white text-xs font-black">{num}</span>
-              </div>
-              <h3 className="text-base font-bold text-[#0F172A] mb-2">{title}</h3>
+            <div key={num} className="bg-white p-8 lg:p-10">
+              <div className="text-[11px] font-bold text-slate-400 tracking-[0.2em] mb-6">{num}</div>
+              <div className="text-base font-black text-[#0F172A] mb-3">{title}</div>
               <p className="text-[#475569] text-sm leading-relaxed">{desc}</p>
             </div>
           ))}
         </div>
 
-        <div className="bg-[#F8FAFC] border border-slate-200 rounded-xl px-7 py-5 max-w-2xl">
-          <p className="text-[#475569] text-sm lg:text-[15px] leading-relaxed">
-            처음부터 큰 범위로 시작하지 않아도 됩니다.<br />
-            현재 상황에 맞는 방식으로 현실적인 출발점을 함께 정리합니다.
-          </p>
-        </div>
-
-      </div>
-    </section>
-  )
-}
-
-/* ─────────────────────────────────────────────────────────────
-   ABOUT
-   ───────────────────────────────────────────────────────────── */
-function About() {
-  return (
-    <section id="about" className="py-24 lg:py-32 bg-[#F8FAFC]">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-start">
-
-          <div>
-            <SectionLabel text="About" />
-            <h2 className="mt-4 text-3xl lg:text-4xl font-black text-[#0F172A] leading-tight mb-7">
-              셀케이드는 제조사의 제품이<br />해외에서 실제로 팔리도록 돕습니다
-            </h2>
-            <div className="space-y-5 text-[#475569] text-[15px] leading-[1.9]">
-              <p>
-                셀케이드는 2016년 아마존 글로벌 셀링을 시작으로
-                브랜드 운영, 판매대행, 콘텐츠 기획, 마케팅, 교육, 컨설팅을 수행해왔습니다.
-              </p>
-              <p>
-                해외 판매는 단순한 입점이 아니라
-                제품, 콘텐츠, 운영, 시장 이해가 함께 맞물려야 가능한 일입니다.
-              </p>
-              <p>
-                셀케이드는 제조사의 제품이 해외 시장에서
-                실제 판매 성과로 이어질 수 있도록 실행 중심의 역할을 수행합니다.
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-              { label: '글로벌 이커머스 시작', value: '2016년~',    desc: 'Amazon 직접 판매 운영' },
-              { label: 'aT센터 강의',         value: '2021년~',    desc: '글로벌 셀링 강의 수행' },
-              { label: '제조사 운영 성과',     value: '아마존 1위', desc: '2024년 베스트셀러 달성' },
-              { label: '교육 및 컨설팅',       value: '대학·기관',  desc: '무역협회·KITA·aT센터' },
-            ].map(({ label, value, desc }) => (
-              <div key={label} className="bg-white rounded-xl p-6 border border-slate-200">
-                <div className="text-xs text-slate-400 font-medium mb-1.5 tracking-wide">{label}</div>
-                <div className="text-xl font-black text-[#0F172A] mb-1 leading-tight">{value}</div>
-                <div className="text-xs text-[#475569] leading-snug">{desc}</div>
-              </div>
-            ))}
-          </div>
-
-        </div>
       </div>
     </section>
   )
@@ -726,7 +428,7 @@ function About() {
 
 /* ─────────────────────────────────────────────────────────────
    FAQ
-   Uses native <details>/<summary> — no JS state needed.
+   Native <details>/<summary> — zero JS state.
    ───────────────────────────────────────────────────────────── */
 function FAQ() {
   const faqs = [
@@ -740,41 +442,44 @@ function FAQ() {
     },
     {
       q: '상세페이지나 콘텐츠 기획만 별도로 의뢰할 수 있나요?',
-      a: '가능합니다. 전체 운영뿐 아니라 필요한 영역 중심으로도 진행할 수 있습니다.',
+      a: '가능합니다. 전체 운영이 아니더라도 필요한 영역 중심으로 진행할 수 있습니다.',
     },
     {
       q: '교육만 별도로 요청할 수 있나요?',
-      a: '가능합니다. 기업, 기관, 실무 담당자 대상 강의와 교육도 진행합니다.',
+      a: '가능합니다. 기업, 기관, 실무 담당자 대상 강의와 교육도 별도로 진행합니다.',
     },
   ]
 
   return (
-    <section id="faq" className="py-24 lg:py-32 bg-white">
-      <div className="max-w-3xl mx-auto px-6 lg:px-10">
+    <section id="faq" className="py-28 lg:py-36 bg-[#F8FAFC]">
+      <div className="max-w-3xl mx-auto px-6 lg:px-12">
+
         <div className="mb-12">
           <SectionLabel text="FAQ" />
-          <h2 className="mt-4 text-3xl lg:text-4xl font-black text-[#0F172A] leading-tight">
+          <h2 className="mt-4 text-[1.9rem] lg:text-[2.75rem] font-black text-[#0F172A] leading-tight">
             자주 묻는 질문
           </h2>
         </div>
-        <div className="space-y-3">
+
+        <div className="divide-y divide-slate-200 border-y border-slate-200">
           {faqs.map(({ q, a }) => (
-            <details
-              key={q}
-              className="group bg-[#F8FAFC] border border-slate-200 rounded-xl overflow-hidden"
-            >
-              <summary className="flex items-center justify-between px-6 py-5 cursor-pointer list-none select-none">
-                <span className="text-sm font-semibold text-[#0F172A] leading-snug pr-4">{q}</span>
-                <span className="flex-shrink-0 w-6 h-6 rounded-full border border-slate-300 flex items-center justify-center text-slate-500 text-base font-light group-open:rotate-45 transition-transform duration-200">
+            <details key={q} className="group">
+              <summary className="flex items-center justify-between py-5 cursor-pointer list-none select-none gap-6">
+                <span className="text-[15px] font-semibold text-[#0F172A] leading-snug">{q}</span>
+                <span
+                  className="flex-shrink-0 text-slate-400 text-lg font-light group-open:rotate-45 transition-transform duration-200 leading-none"
+                  aria-hidden="true"
+                >
                   +
                 </span>
               </summary>
-              <div className="px-6 pb-5">
-                <p className="text-[#475569] text-sm leading-relaxed border-t border-slate-200 pt-4">{a}</p>
+              <div className="pb-5">
+                <p className="text-[#475569] text-sm leading-relaxed">{a}</p>
               </div>
             </details>
           ))}
         </div>
+
       </div>
     </section>
   )
@@ -785,21 +490,28 @@ function FAQ() {
    ───────────────────────────────────────────────────────────── */
 function FinalCTA() {
   return (
-    <section className="py-20 lg:py-24 bg-[#2563EB]">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10 text-center">
-        <h2 className="text-2xl lg:text-3xl font-black text-white mb-5 leading-tight max-w-2xl mx-auto">
-          해외 판매를 검토 중이라면,<br />실행 가능한 방향부터 점검해보시기 바랍니다
-        </h2>
-        <p className="text-blue-100 text-base lg:text-lg max-w-xl mx-auto mb-8 leading-[1.85]">
-          제품의 시장성, 아마존 진출 방향, 콘텐츠 구성, 운영 구조까지<br />
-          제조사 상황에 맞는 현실적인 방향을 함께 정리해드립니다.
-        </p>
-        <button
-          onClick={() => smoothScroll('#contact')}
-          className="inline-block px-8 py-4 text-sm font-semibold bg-white text-[#2563EB] rounded hover:bg-blue-50 active:bg-blue-100 transition-colors duration-200"
-        >
-          제조사 상담 문의하기
-        </button>
+    <section className="py-24 lg:py-32 bg-[#0F172A]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="max-w-2xl">
+          <p className="text-blue-400 text-[11px] font-semibold tracking-[0.28em] uppercase mb-6">
+            Get in Touch
+          </p>
+          <h2 className="text-[1.9rem] lg:text-[2.75rem] font-black text-white leading-tight mb-6">
+            해외 판매를 검토 중이라면,<br />
+            실행 가능한 방향부터<br />
+            점검해보시기 바랍니다
+          </h2>
+          <p className="text-slate-400 text-[15px] leading-relaxed mb-10 max-w-md">
+            제품의 시장성, 아마존 진출 방향, 콘텐츠 구성, 운영 구조까지
+            제조사 상황에 맞는 현실적인 방향을 함께 정리해드립니다.
+          </p>
+          <button
+            onClick={() => smoothScroll('#contact')}
+            className="px-8 py-4 text-sm font-semibold bg-white text-[#0F172A] rounded hover:bg-slate-100 active:bg-slate-200 transition-colors duration-200"
+          >
+            제조사 상담 문의하기
+          </button>
+        </div>
       </div>
     </section>
   )
@@ -844,10 +556,9 @@ function Contact() {
   const [status, setStatus]           = useState('idle')
   const [serverError, setServerError] = useState('')
 
-  const fieldRefs = useRef({})
+  const fieldRefs  = useRef({})
   const setFieldRef = (name) => (el) => { fieldRefs.current[name] = el }
-
-  const abortRef = useRef(null)
+  const abortRef   = useRef(null)
   useEffect(() => () => abortRef.current?.abort(), [])
 
   const handleChange = (e) => {
@@ -884,16 +595,16 @@ function Contact() {
         signal: abortRef.current.signal,
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          _subject: `[셀케이드 제조사 문의] ${form.org.trim()}`,
-          _gotcha:  '',
+          _subject:        `[셀케이드 제조사 문의] ${form.org.trim()}`,
+          _gotcha:         '',
           회사명:           form.org.trim(),
-          담당자명:          form.name.trim(),
-          연락처:            form.phone.trim(),
-          이메일:            form.email.trim(),
-          문의종류:          form.inquiryType,
-          제품명_카테고리:    form.product.trim(),
-          진출희망국가:       form.country.trim(),
-          문의내용:          form.message.trim(),
+          담당자명:         form.name.trim(),
+          연락처:           form.phone.trim(),
+          이메일:           form.email.trim(),
+          문의종류:         form.inquiryType,
+          제품명_카테고리:   form.product.trim(),
+          진출희망국가:      form.country.trim(),
+          문의내용:         form.message.trim(),
         }),
       })
       if (res.ok) {
@@ -916,45 +627,49 @@ function Contact() {
   const isSubmitting = status === 'submitting'
 
   return (
-    <section id="contact" className="py-24 lg:py-32 bg-[#F8FAFC]">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
+    <section id="contact" className="py-28 lg:py-36 bg-white">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
         <div className="mb-14 lg:mb-16">
           <SectionLabel text="Contact" />
-          <h2 className="mt-4 text-3xl lg:text-4xl font-black text-[#0F172A] leading-tight">
+          <h2 className="mt-4 text-[1.9rem] lg:text-[2.75rem] font-black text-[#0F172A] leading-tight">
             제조사 맞춤 상담 문의
           </h2>
-          <p className="mt-3 text-[#475569] text-base lg:text-[17px] leading-relaxed">
-            현재 제품과 목표 시장을 남겨주시면<br />
+          <p className="mt-3 text-[#475569] text-[15px] max-w-lg leading-relaxed">
+            현재 제품과 목표 시장을 남겨주시면
             상황에 맞는 현실적인 방향으로 검토해드립니다.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-5 gap-12 lg:gap-16">
+        <div className="grid lg:grid-cols-5 gap-12 lg:gap-20">
 
           {/* Left: contact info */}
           <div className="lg:col-span-2 flex flex-col gap-10">
             <div>
-              <h3 className="text-xs font-bold text-slate-400 mb-4 tracking-widest uppercase">연락처</h3>
+              <p className="text-[10px] font-semibold text-slate-400 tracking-[0.2em] uppercase mb-5">
+                연락처
+              </p>
               <div className="space-y-4">
                 <ContactItem label="이메일" value="shawn@selcade.com" href="mailto:shawn@selcade.com" />
                 <ContactItem label="전화"   value="070-4170-0801"     href="tel:070-4170-0801" />
               </div>
             </div>
             <div>
-              <h3 className="text-xs font-bold text-slate-400 mb-4 tracking-widest uppercase">문의 분야</h3>
-              <ul className="space-y-2">
+              <p className="text-[10px] font-semibold text-slate-400 tracking-[0.2em] uppercase mb-5">
+                문의 분야
+              </p>
+              <ul className="space-y-2.5">
                 {[
                   '아마존 운영대행',
-                  '브랜드 · 채널 운영대행',
                   '해외 판매 콘텐츠 기획',
                   '글로벌 이커머스 컨설팅',
+                  '브랜드 · 채널 운영대행',
                   '기업 · 기관 실무 교육',
                   '기타 협업 문의',
                 ].map((item) => (
-                  <li key={item} className="flex items-center gap-2.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-blue-400 flex-shrink-0" />
-                    <span className="text-[#475569] text-sm">{item}</span>
+                  <li key={item} className="flex items-center gap-3 text-sm text-[#475569]">
+                    <span className="w-px h-3 bg-slate-300 flex-shrink-0" aria-hidden="true" />
+                    {item}
                   </li>
                 ))}
               </ul>
@@ -967,18 +682,21 @@ function Contact() {
               <div
                 role="status"
                 aria-live="polite"
-                className="bg-white rounded-xl p-12 border border-slate-200 text-center flex flex-col items-center gap-4"
+                className="border border-slate-200 rounded-xl p-14 text-center flex flex-col items-center gap-4"
               >
-                <div aria-hidden="true" className="w-14 h-14 rounded-full bg-blue-50 border border-blue-100 flex items-center justify-center">
-                  <div className="w-2.5 h-5 border-r-2 border-b-2 border-blue-600 rotate-45 -mt-1" />
+                <div
+                  aria-hidden="true"
+                  className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center"
+                >
+                  <div className="w-2 h-4 border-r-2 border-b-2 border-[#2563EB] rotate-45 -mt-0.5" />
                 </div>
-                <h3 className="text-lg font-bold text-[#0F172A]">문의가 접수되었습니다</h3>
-                <p className="text-[#475569] text-sm max-w-xs leading-relaxed">
-                  소중한 문의 감사합니다.<br />빠른 시간 내에 답변드리겠습니다.
+                <h3 className="text-base font-bold text-[#0F172A]">문의가 접수되었습니다</h3>
+                <p className="text-[#475569] text-sm leading-relaxed">
+                  소중한 문의 감사합니다. 빠른 시간 내에 답변드리겠습니다.
                 </p>
                 <button
                   onClick={() => setStatus('idle')}
-                  className="mt-2 text-xs text-blue-600 hover:text-blue-800 transition-colors underline underline-offset-2"
+                  className="mt-2 text-xs text-[#2563EB] hover:underline underline-offset-2"
                 >
                   새 문의 작성하기
                 </button>
@@ -988,41 +706,16 @@ function Contact() {
                 onSubmit={handleSubmit}
                 noValidate
                 aria-label="제조사 상담 문의 양식"
-                className="bg-white rounded-xl p-8 lg:p-10 border border-slate-200 space-y-5"
+                className="space-y-5"
               >
-                {/* 회사명 + 담당자명 */}
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <FormField
-                    label="회사명" name="org" type="text"
-                    placeholder="회사명 또는 기관명" autoComplete="organization"
-                    value={form.org} onChange={handleChange}
-                    error={errors.org} inputRef={setFieldRef('org')} required
-                  />
-                  <FormField
-                    label="담당자명" name="name" type="text"
-                    placeholder="홍길동" autoComplete="name"
-                    value={form.name} onChange={handleChange}
-                    error={errors.name} inputRef={setFieldRef('name')} required
-                  />
+                  <FormField label="회사명"   name="org"  type="text"  placeholder="회사명 또는 기관명" autoComplete="organization" value={form.org}  onChange={handleChange} error={errors.org}  inputRef={setFieldRef('org')}  required />
+                  <FormField label="담당자명" name="name" type="text"  placeholder="홍길동"             autoComplete="name"         value={form.name} onChange={handleChange} error={errors.name} inputRef={setFieldRef('name')} required />
                 </div>
-
-                {/* 연락처 + 이메일 */}
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <FormField
-                    label="연락처" name="phone" type="tel"
-                    placeholder="010-0000-0000" autoComplete="tel"
-                    value={form.phone} onChange={handleChange}
-                    error={errors.phone} inputRef={setFieldRef('phone')} required
-                  />
-                  <FormField
-                    label="이메일" name="email" type="email"
-                    placeholder="example@company.com" autoComplete="email"
-                    value={form.email} onChange={handleChange} onBlur={handleBlur}
-                    error={errors.email} inputRef={setFieldRef('email')} required
-                  />
+                  <FormField label="연락처" name="phone" type="tel"   placeholder="010-0000-0000"      autoComplete="tel"   value={form.phone} onChange={handleChange} error={errors.phone} inputRef={setFieldRef('phone')} required />
+                  <FormField label="이메일" name="email" type="email" placeholder="example@company.com" autoComplete="email" value={form.email} onChange={handleChange} onBlur={handleBlur} error={errors.email} inputRef={setFieldRef('email')} required />
                 </div>
-
-                {/* 문의 종류 */}
                 <SelectField
                   label="문의 종류" name="inquiryType"
                   value={form.inquiryType} onChange={handleChange}
@@ -1035,26 +728,14 @@ function Contact() {
                     { value: '기타',    label: '기타' },
                   ]}
                 />
-
-                {/* 제품명 + 진출 희망 국가 */}
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <FormField
-                    label="제품명 / 제품 카테고리" name="product" type="text"
-                    placeholder="예: 건강기능식품, 주방용품" autoComplete="off"
-                    value={form.product} onChange={handleChange}
-                    error={errors.product} inputRef={setFieldRef('product')}
-                  />
-                  <FormField
-                    label="진출 희망 국가" name="country" type="text"
-                    placeholder="예: 미국, 일본, 유럽" autoComplete="off"
-                    value={form.country} onChange={handleChange}
-                    error={errors.country} inputRef={setFieldRef('country')}
-                  />
+                  <FormField label="제품명 / 제품 카테고리" name="product" type="text" placeholder="예: 건강기능식품, 주방용품" autoComplete="off" value={form.product} onChange={handleChange} error={errors.product} inputRef={setFieldRef('product')} />
+                  <FormField label="진출 희망 국가"         name="country" type="text" placeholder="예: 미국, 일본, 유럽"       autoComplete="off" value={form.country} onChange={handleChange} error={errors.country} inputRef={setFieldRef('country')} />
                 </div>
 
                 {/* 문의 내용 */}
                 <div>
-                  <label htmlFor="field-message" className="block text-xs font-semibold text-[#475569] mb-1.5">
+                  <label htmlFor="field-message" className="block text-[11px] font-semibold text-[#475569] tracking-wide mb-1.5">
                     문의 내용
                     <span className="text-red-400 ml-0.5" aria-hidden="true">*</span>
                     <span className="sr-only">(필수)</span>
@@ -1071,26 +752,22 @@ function Contact() {
                     aria-invalid={!!errors.message}
                     aria-describedby={errors.message ? 'field-message-error' : undefined}
                     placeholder="현재 제품, 목표 시장, 고민 지점을 자유롭게 작성해 주세요."
-                    className={`w-full px-4 py-2.5 text-sm border rounded focus:outline-none focus:ring-2 transition text-[#0F172A] placeholder:text-slate-300 resize-none ${
+                    className={`w-full px-4 py-3 text-sm border rounded-lg focus:outline-none focus:ring-2 transition text-[#0F172A] placeholder:text-slate-300 resize-none ${
                       errors.message
                         ? 'border-red-300 focus:border-red-400 focus:ring-red-50'
-                        : 'border-slate-200 focus:border-blue-400 focus:ring-blue-50'
+                        : 'border-slate-200 focus:border-slate-400 focus:ring-slate-100'
                     }`}
                   />
                   {errors.message && (
-                    <p id="field-message-error" role="alert" className="mt-1 text-xs text-red-500">
-                      {errors.message}
-                    </p>
+                    <p id="field-message-error" role="alert" className="mt-1.5 text-xs text-red-500">{errors.message}</p>
                   )}
                 </div>
 
-                {/* Server-level error banner */}
+                {/* Server error */}
                 <div role="alert" aria-live="assertive" aria-atomic="true" className="empty:hidden">
                   {status === 'error' && serverError && (
                     <div className="flex items-start gap-3 bg-red-50 border border-red-100 rounded-lg px-4 py-3">
-                      <div aria-hidden="true" className="w-4 h-4 flex-shrink-0 mt-0.5 rounded-full border border-red-400 flex items-center justify-center">
-                        <span className="text-red-500 text-[10px] font-black leading-none">!</span>
-                      </div>
+                      <span aria-hidden="true" className="text-red-400 font-bold text-sm mt-px">!</span>
                       <p className="text-xs text-red-600 leading-relaxed">{serverError}</p>
                     </div>
                   )}
@@ -1100,12 +777,12 @@ function Contact() {
                   type="submit"
                   disabled={isSubmitting}
                   aria-disabled={isSubmitting}
-                  className="w-full py-3.5 text-sm font-semibold rounded transition-colors duration-200 disabled:opacity-60 disabled:cursor-not-allowed bg-[#2563EB] text-white hover:bg-blue-700 active:bg-blue-800"
+                  className="w-full py-4 text-sm font-semibold rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-[#0F172A] text-white hover:bg-slate-800 active:bg-slate-700"
                 >
                   {isSubmitting ? '전송 중...' : '제조사 상담 문의하기'}
                 </button>
 
-                <p className="text-xs text-slate-400 text-center">
+                <p className="text-[11px] text-slate-400 text-center">
                   입력하신 정보는 문의 응대 목적으로만 사용됩니다.
                 </p>
               </form>
@@ -1123,19 +800,23 @@ function Contact() {
    ───────────────────────────────────────────────────────────── */
 function Footer() {
   return (
-    <footer className="bg-[#0F172A] py-12 lg:py-14">
-      <div className="max-w-7xl mx-auto px-6 lg:px-10">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-          <div className="flex flex-col gap-2">
-            <div className="text-white font-black text-base tracking-logo mb-0.5">SELCADE</div>
-            <div className="text-slate-400 text-sm font-medium">셀케이드 주식회사 | SELCADE Co., Ltd.</div>
-            <div className="text-slate-600 text-xs leading-relaxed mt-1">
-              사업자등록번호: 427-86-03147 &nbsp;·&nbsp; 대표: 김상걸
-              <br />
-              인천광역시 연수구 센트럴로 313, B611 &nbsp;·&nbsp; 070-4170-0801 &nbsp;·&nbsp; shawn@selcade.com
+    <footer className="bg-[#0F172A] py-12 lg:py-16 border-t border-slate-800">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8">
+          <div className="flex flex-col gap-2.5">
+            <div className="text-white font-black text-[13px] tracking-[0.2em] uppercase mb-1">
+              SELCADE
+            </div>
+            <div className="text-slate-500 text-xs leading-relaxed">
+              셀케이드 주식회사 &nbsp;·&nbsp; 사업자등록번호: 427-86-03147 &nbsp;·&nbsp; 대표: 김상걸
+            </div>
+            <div className="text-slate-500 text-xs leading-relaxed">
+              인천광역시 연수구 센트럴로 313, B611
+              &nbsp;·&nbsp; 070-4170-0801
+              &nbsp;·&nbsp; shawn@selcade.com
             </div>
           </div>
-          <div className="text-slate-600 text-xs">
+          <div className="text-slate-600 text-[11px]">
             © {new Date().getFullYear()} Selcade Co., Ltd. All rights reserved.
           </div>
         </div>
@@ -1145,33 +826,31 @@ function Footer() {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   SHARED / UTILITY COMPONENTS
+   UTILITY COMPONENTS
    ───────────────────────────────────────────────────────────── */
 
-function SectionLabel({ text, dark = false }) {
+/** Thin rule + small-caps label above section headings. */
+function SectionLabel({ text }) {
   return (
-    <div className="inline-flex items-center gap-3" aria-hidden="true">
-      <div className={`w-6 h-px ${dark ? 'bg-[#60A5FA]' : 'bg-[#2563EB]'}`} />
-      <span className={`text-xs font-semibold tracking-[0.18em] uppercase ${dark ? 'text-[#60A5FA]' : 'text-[#2563EB]'}`}>
+    <div className="inline-flex items-center gap-3">
+      <div className="w-5 h-px bg-[#2563EB]" aria-hidden="true" />
+      <span className="text-[11px] font-semibold text-[#2563EB] tracking-[0.22em] uppercase">
         {text}
       </span>
     </div>
   )
 }
 
-function ContactItem({ label, value, href, note }) {
+function ContactItem({ label, value, href }) {
   return (
-    <div className="flex items-start gap-3">
-      <div className="w-5 h-5 flex-shrink-0 mt-0.5 rounded bg-slate-200 flex items-center justify-center">
-        <div className="w-1.5 h-1.5 rounded-full bg-slate-500" />
-      </div>
-      <div>
-        <div className="text-xs text-slate-400 mb-0.5">{label}</div>
-        <a href={href} className="text-[#0F172A] text-sm font-medium hover:text-[#2563EB] transition-colors duration-200">
-          {value}
-        </a>
-        {note && <div className="text-[11px] text-slate-400 mt-0.5">{note}</div>}
-      </div>
+    <div>
+      <div className="text-[10px] text-slate-400 mb-0.5 tracking-wide">{label}</div>
+      <a
+        href={href}
+        className="text-sm font-medium text-[#0F172A] hover:text-[#2563EB] transition-colors duration-200"
+      >
+        {value}
+      </a>
     </div>
   )
 }
@@ -1185,14 +864,9 @@ function FormField({
   const errorId = `field-${name}-error`
   return (
     <div>
-      <label htmlFor={fieldId} className="block text-xs font-semibold text-[#475569] mb-1.5">
+      <label htmlFor={fieldId} className="block text-[11px] font-semibold text-[#475569] tracking-wide mb-1.5">
         {label}
-        {required && (
-          <>
-            <span className="text-red-400 ml-0.5" aria-hidden="true">*</span>
-            <span className="sr-only">(필수)</span>
-          </>
-        )}
+        {required && <><span className="text-red-400 ml-0.5" aria-hidden="true">*</span><span className="sr-only">(필수)</span></>}
       </label>
       <input
         id={fieldId}
@@ -1208,15 +882,13 @@ function FormField({
         aria-invalid={!!error}
         aria-describedby={error ? errorId : undefined}
         ref={inputRef}
-        className={`w-full px-4 py-2.5 text-sm border rounded focus:outline-none focus:ring-2 transition text-[#0F172A] placeholder:text-slate-300 ${
+        className={`w-full px-4 py-3 text-sm border rounded-lg focus:outline-none focus:ring-2 transition text-[#0F172A] placeholder:text-slate-300 ${
           error
             ? 'border-red-300 focus:border-red-400 focus:ring-red-50'
-            : 'border-slate-200 focus:border-blue-400 focus:ring-blue-50'
+            : 'border-slate-200 focus:border-slate-400 focus:ring-slate-100'
         }`}
       />
-      {error && (
-        <p id={errorId} role="alert" className="mt-1 text-xs text-red-500">{error}</p>
-      )}
+      {error && <p id={errorId} role="alert" className="mt-1.5 text-xs text-red-500">{error}</p>}
     </div>
   )
 }
@@ -1226,14 +898,9 @@ function SelectField({ label, name, value, onChange, error, required, inputRef, 
   const errorId = `field-${name}-error`
   return (
     <div>
-      <label htmlFor={fieldId} className="block text-xs font-semibold text-[#475569] mb-1.5">
+      <label htmlFor={fieldId} className="block text-[11px] font-semibold text-[#475569] tracking-wide mb-1.5">
         {label}
-        {required && (
-          <>
-            <span className="text-red-400 ml-0.5" aria-hidden="true">*</span>
-            <span className="sr-only">(필수)</span>
-          </>
-        )}
+        {required && <><span className="text-red-400 ml-0.5" aria-hidden="true">*</span><span className="sr-only">(필수)</span></>}
       </label>
       <select
         id={fieldId}
@@ -1245,21 +912,19 @@ function SelectField({ label, name, value, onChange, error, required, inputRef, 
         aria-invalid={!!error}
         aria-describedby={error ? errorId : undefined}
         ref={inputRef}
-        className={`w-full px-4 py-2.5 text-sm border rounded focus:outline-none focus:ring-2 transition bg-white ${
+        className={`w-full px-4 py-3 text-sm border rounded-lg focus:outline-none focus:ring-2 transition bg-white ${
           value === '' ? 'text-slate-400' : 'text-[#0F172A]'
         } ${
           error
             ? 'border-red-300 focus:border-red-400 focus:ring-red-50'
-            : 'border-slate-200 focus:border-blue-400 focus:ring-blue-50'
+            : 'border-slate-200 focus:border-slate-400 focus:ring-slate-100'
         }`}
       >
         {options.map(({ value: v, label: l }) => (
           <option key={v} value={v} disabled={v === ''} className="text-[#0F172A]">{l}</option>
         ))}
       </select>
-      {error && (
-        <p id={errorId} role="alert" className="mt-1 text-xs text-red-500">{error}</p>
-      )}
+      {error && <p id={errorId} role="alert" className="mt-1.5 text-xs text-red-500">{error}</p>}
     </div>
   )
 }
@@ -1274,14 +939,9 @@ export default function App() {
         <Header />
         <Hero />
         <TrustBar />
-        <Problem />
-        <Role />
-        <SuitableCustomers />
         <Services />
-        <Differentiator />
         <TrackRecord />
         <Process />
-        <About />
         <FAQ />
         <FinalCTA />
         <Contact />
