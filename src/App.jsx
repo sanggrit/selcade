@@ -190,8 +190,8 @@ function Hero() {
         </h1>
 
         <p className="text-slate-400 text-base lg:text-lg leading-[1.85] mb-12 max-w-lg">
-          아마존 판매 전략, 콘텐츠 기획, 운영, 교육까지 —<br />
-          2016년부터 쌓아온 실행 경험을 바탕으로 함께합니다.
+          셀케이드는 제조사를 위한 실행형 글로벌 이커머스 파트너입니다.<br />
+          아마존 전략, 콘텐츠, 운영, 교육까지 실제 판매에 맞게 연결합니다.
         </p>
 
         <div className="flex flex-wrap gap-3">
@@ -250,6 +250,71 @@ function TrustBar() {
 }
 
 /* ─────────────────────────────────────────────────────────────
+   PROBLEM + ROLE
+   Centered, large type. One idea: why good products alone aren't enough.
+   ───────────────────────────────────────────────────────────── */
+function ProblemRole() {
+  return (
+    <section id="problem" className="py-28 lg:py-40 bg-white">
+      <div className="max-w-2xl mx-auto px-6 lg:px-12 text-center">
+        <SectionLabel text="The Problem" />
+        <h2 className="mt-5 text-[2.25rem] lg:text-[3.5rem] font-black text-[#0F172A] leading-[1.1] tracking-tight mb-10">
+          좋은 제품만으로는<br />해외에서 팔리지 않습니다
+        </h2>
+        <div className="space-y-5 text-[#475569] text-base lg:text-[17px] leading-[1.9]">
+          <p>
+            해외 판매는 단순 입점으로 끝나지 않습니다.<br />
+            시장, 콘텐츠, 운영, 구조가 함께 맞아야 실제 판매로 이어집니다.
+          </p>
+          <p>
+            셀케이드는 제품 등록에 그치지 않습니다.<br />
+            제조사의 제품이 해외 시장에서 팔릴 수 있도록<br className="hidden sm:block" />
+            전략부터 실행까지 연결합니다.
+          </p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ─────────────────────────────────────────────────────────────
+   FIT
+   Dark section. Who Selcade is right for.
+   ───────────────────────────────────────────────────────────── */
+function Fit() {
+  const items = [
+    '해외 판매를 어디서부터 시작해야 할지 모르는 기업',
+    '아마존 진출은 고민 중이지만 운영 구조가 막막한 기업',
+    '상세페이지와 콘텐츠가 준비되지 않은 제조사',
+    '수출 이후 지속적인 판매 체계가 필요한 기업',
+    '실무형 파트너와 교육이 함께 필요한 기업',
+  ]
+  return (
+    <section id="fit" className="py-28 lg:py-36 bg-[#0F172A]">
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="max-w-3xl">
+          <SectionLabel text="Who We Help" dark />
+          <h2 className="mt-5 text-[1.9rem] lg:text-[2.75rem] font-black text-white leading-tight mb-10">
+            이런 제조사와<br />잘 맞습니다
+          </h2>
+          <ul className="space-y-5 mb-12">
+            {items.map((item) => (
+              <li key={item} className="flex items-start gap-4">
+                <span className="mt-[7px] w-1 h-1 rounded-full bg-[#60A5FA] flex-shrink-0" aria-hidden="true" />
+                <span className="text-slate-300 text-[15px] leading-snug">{item}</span>
+              </li>
+            ))}
+          </ul>
+          <p className="text-slate-500 text-sm border-t border-slate-800 pt-6">
+            셀케이드는 제조사의 제품이 해외 시장에서 실제 판매로 이어질 수 있도록 실무 중심으로 지원합니다.
+          </p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ─────────────────────────────────────────────────────────────
    SERVICES
    4 cards in a 2×2 grid. Blue top-rule accent, no decorative numbers.
    Gap-px trick creates clean 1px grid lines between cells.
@@ -257,20 +322,20 @@ function TrustBar() {
 function Services() {
   const services = [
     {
-      title: '시장성 분석 및 진출 전략',
-      desc:  '어떤 제품이 어떤 시장에서 가능성이 있는지 검토하고 진출 방향과 채널 우선순위를 정리합니다.',
+      title: '시장 검토',
+      desc:  '어떤 제품이 어떤 시장에서 통할지 정리합니다.',
     },
     {
-      title: '상세페이지 및 콘텐츠 기획',
-      desc:  '해외 고객이 제품의 가치를 명확히 이해할 수 있도록 페이지 구조, 이미지 방향, 메시지를 설계합니다.',
+      title: '콘텐츠 기획',
+      desc:  '해외 고객이 이해하는 상세페이지와 메시지를 만듭니다.',
     },
     {
-      title: '아마존 운영 구조 구축',
-      desc:  '입점 이후 판매가 지속될 수 있도록 운영 흐름, 채널 구조, 실행 방식을 함께 점검합니다.',
+      title: '운영 설계',
+      desc:  '입점 이후 판매가 이어지는 구조를 점검합니다.',
     },
     {
-      title: '실무 교육 및 강의',
-      desc:  '대표와 담당자가 해외 판매를 직접 이해하고 실행할 수 있도록 현장 기반의 교육을 제공합니다.',
+      title: '교육 지원',
+      desc:  '대표와 실무자가 직접 이해하고 실행할 수 있게 돕습니다.',
     },
   ]
 
@@ -282,7 +347,7 @@ function Services() {
           <div>
             <SectionLabel text="Services" />
             <h2 className="mt-4 text-[1.9rem] lg:text-[2.75rem] font-black text-[#0F172A] leading-tight">
-              해외 판매를 위한 핵심 서비스
+              등록이 아니라<br />판매까지 설계합니다
             </h2>
           </div>
           <button
@@ -321,23 +386,18 @@ function Services() {
    ───────────────────────────────────────────────────────────── */
 function TrackRecord() {
   const badges = [
-    { label: 'Since 2016',      sub: '글로벌 이커머스 실무' },
-    { label: 'Amazon #1',       sub: '제조사 자사제품 운영 성과' },
-    { label: 'B2B Experience',  sub: '대학·기관·무역 유관기관' },
-    { label: 'Execution-Based', sub: '운영·콘텐츠·마케팅·교육' },
+    { label: 'Since 2016',     sub: '글로벌 이커머스 실무' },
+    { label: 'Amazon #1',      sub: '제조사 자사제품 베스트셀러' },
+    { label: 'B2B Education',  sub: '대학·기관·무역협회 강의' },
+    { label: 'Execution-Based', sub: '운영·콘텐츠·교육 연결' },
   ]
 
   const history = [
     { year: '2016',   text: '아마존 글로벌 셀링 시작' },
-    { year: '2019',   text: '동국대 · 신라대 · 충북대 · 숭실대 GTEP 전자상거래 강의 및 멘토링' },
-    { year: '2019',   text: 'KITA 글로벌 이커머스 스쿨 강의 및 멘토링' },
-    { year: '2019',   text: '경북 청년무역사관학교 아마존 강의' },
-    { year: '2019',   text: '부산무역협회 · 충북무역협회 글로벌 셀링 강의 및 컨설팅' },
+    { year: '2019',   text: '대학·무역기관 전자상거래 강의 및 멘토링 수행' },
     { year: '2019 ~', text: '아마존 브랜드 운영대행 수행' },
     { year: '2021 ~', text: 'aT센터 아마존 글로벌 셀링 강의 수행' },
-    { year: '2023 ~', text: '식음료 브랜드 운영 총괄' },
-    { year: '2024 ~', text: '네이버 · 쿠팡 · 자사몰 운영대행 수행' },
-    { year: '2024',   text: '국내외 판매 경험이 없던 제조사 자사제품 아마존 카테고리 베스트셀러 1위 달성', highlight: true },
+    { year: '2024',   text: '제조사 자사제품 아마존 베스트셀러 랭킹 1위 달성', highlight: true },
   ]
 
   return (
@@ -345,10 +405,15 @@ function TrackRecord() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
         <div className="mb-14 lg:mb-16">
-          <SectionLabel text="Track Record" />
+          <SectionLabel text="Results" />
           <h2 className="mt-4 text-[1.9rem] lg:text-[2.75rem] font-black text-[#0F172A] leading-tight">
-            신뢰는 수행 이력에서 만들어집니다
+            신뢰는<br />결과로 증명합니다
           </h2>
+          <p className="mt-5 text-[#475569] text-[15px] max-w-xl leading-[1.85]">
+            셀케이드는 2016년부터 글로벌 이커머스 실무를 이어왔습니다.<br />
+            그리고 2024년, 판매 경험이 없던 제조사 자사제품을<br className="hidden sm:block" />
+            아마존 베스트셀러 랭킹 1위까지 끌어올렸습니다.
+          </p>
         </div>
 
         {/* Summary badges */}
@@ -389,9 +454,9 @@ function TrackRecord() {
    ───────────────────────────────────────────────────────────── */
 function Process() {
   const steps = [
-    { num: '01', title: '상담', desc: '현재 제품, 목표 시장, 고민 지점을 확인합니다.' },
-    { num: '02', title: '진단', desc: '시장성과 판매 구조를 실무 기준으로 검토합니다.' },
-    { num: '03', title: '제안', desc: '필요한 범위에 맞춰 운영, 콘텐츠, 교육 방향을 제안합니다.' },
+    { num: '01', title: '상담', desc: '현재 제품과 목표 시장을 확인합니다.' },
+    { num: '02', title: '진단', desc: '시장성과 판매 방향을 검토합니다.' },
+    { num: '03', title: '제안', desc: '필요한 범위에 맞춰 방향을 제안합니다.' },
     { num: '04', title: '실행', desc: '우선순위에 맞춰 단계적으로 진행합니다.' },
   ]
 
@@ -402,12 +467,8 @@ function Process() {
         <div className="mb-16 lg:mb-20">
           <SectionLabel text="Process" />
           <h2 className="mt-4 text-[1.9rem] lg:text-[2.75rem] font-black text-[#0F172A] leading-tight">
-            복잡하게 시작할 필요는 없습니다
+            복잡하게 시작할<br />필요는 없습니다
           </h2>
-          <p className="mt-3 text-[#475569] text-[15px] max-w-lg leading-relaxed">
-            처음부터 큰 범위로 시작하지 않아도 됩니다.
-            현재 상황에 맞는 현실적인 출발점을 함께 정리합니다.
-          </p>
         </div>
 
         {/* Steps grid */}
@@ -418,65 +479,6 @@ function Process() {
               <div className="text-base font-black text-[#0F172A] mb-3">{title}</div>
               <p className="text-[#475569] text-sm leading-relaxed">{desc}</p>
             </div>
-          ))}
-        </div>
-
-      </div>
-    </section>
-  )
-}
-
-/* ─────────────────────────────────────────────────────────────
-   FAQ
-   Native <details>/<summary> — zero JS state.
-   ───────────────────────────────────────────────────────────── */
-function FAQ() {
-  const faqs = [
-    {
-      q: '해외 판매가 처음이어도 가능한가요?',
-      a: '가능합니다. 현재 상황에 맞춰 준비 범위와 우선순위를 함께 정리합니다.',
-    },
-    {
-      q: '아마존 외 채널도 함께 볼 수 있나요?',
-      a: '가능합니다. 아마존 중심으로 접근하되 네이버, 쿠팡, 자사몰 운영 경험을 바탕으로 전체 구조를 함께 봅니다.',
-    },
-    {
-      q: '상세페이지나 콘텐츠 기획만 별도로 의뢰할 수 있나요?',
-      a: '가능합니다. 전체 운영이 아니더라도 필요한 영역 중심으로 진행할 수 있습니다.',
-    },
-    {
-      q: '교육만 별도로 요청할 수 있나요?',
-      a: '가능합니다. 기업, 기관, 실무 담당자 대상 강의와 교육도 별도로 진행합니다.',
-    },
-  ]
-
-  return (
-    <section id="faq" className="py-28 lg:py-36 bg-[#F8FAFC]">
-      <div className="max-w-3xl mx-auto px-6 lg:px-12">
-
-        <div className="mb-12">
-          <SectionLabel text="FAQ" />
-          <h2 className="mt-4 text-[1.9rem] lg:text-[2.75rem] font-black text-[#0F172A] leading-tight">
-            자주 묻는 질문
-          </h2>
-        </div>
-
-        <div className="divide-y divide-slate-200 border-y border-slate-200">
-          {faqs.map(({ q, a }) => (
-            <details key={q} className="group">
-              <summary className="flex items-center justify-between py-5 cursor-pointer list-none select-none gap-6">
-                <span className="text-[15px] font-semibold text-[#0F172A] leading-snug">{q}</span>
-                <span
-                  className="flex-shrink-0 text-slate-400 text-lg font-light group-open:rotate-45 transition-transform duration-200 leading-none"
-                  aria-hidden="true"
-                >
-                  +
-                </span>
-              </summary>
-              <div className="pb-5">
-                <p className="text-[#475569] text-sm leading-relaxed">{a}</p>
-              </div>
-            </details>
           ))}
         </div>
 
@@ -497,12 +499,11 @@ function FinalCTA() {
             Get in Touch
           </p>
           <h2 className="text-[1.9rem] lg:text-[2.75rem] font-black text-white leading-tight mb-6">
-            해외 판매를 검토 중이라면,<br />
-            실행 가능한 방향부터<br />
-            점검해보시기 바랍니다
+            해외 판매,<br />
+            방향부터 점검해보시기 바랍니다
           </h2>
           <p className="text-slate-400 text-[15px] leading-relaxed mb-10 max-w-md">
-            제품의 시장성, 아마존 진출 방향, 콘텐츠 구성, 운영 구조까지
+            제품의 시장성부터 아마존 진출 방향까지
             제조사 상황에 맞는 현실적인 방향을 함께 정리해드립니다.
           </p>
           <button
@@ -830,11 +831,11 @@ function Footer() {
    ───────────────────────────────────────────────────────────── */
 
 /** Thin rule + small-caps label above section headings. */
-function SectionLabel({ text }) {
+function SectionLabel({ text, dark = false }) {
   return (
     <div className="inline-flex items-center gap-3">
-      <div className="w-5 h-px bg-[#2563EB]" aria-hidden="true" />
-      <span className="text-[11px] font-semibold text-[#2563EB] tracking-[0.22em] uppercase">
+      <div className={`w-5 h-px ${dark ? 'bg-[#60A5FA]' : 'bg-[#2563EB]'}`} aria-hidden="true" />
+      <span className={`text-[11px] font-semibold tracking-[0.22em] uppercase ${dark ? 'text-[#60A5FA]' : 'text-[#2563EB]'}`}>
         {text}
       </span>
     </div>
@@ -939,10 +940,11 @@ export default function App() {
         <Header />
         <Hero />
         <TrustBar />
+        <ProblemRole />
         <Services />
+        <Fit />
         <TrackRecord />
         <Process />
-        <FAQ />
         <FinalCTA />
         <Contact />
         <Footer />
