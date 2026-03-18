@@ -33,7 +33,7 @@ const TRUST_STATS = [
   { value: '2016',  label: '아마존 글로벌 셀링 시작' },
   { value: 'No.1',  label: '카테고리 베스트셀러' },
   { value: '9+',    label: '강의·컨설팅 기관' },
-  { value: 'TOTAL', label: '운영·콘텐츠·교육 연결' },
+  { value: 'TOTAL', label: '운영·콘텐츠·교육·컨설팅' },
 ]
 
 const FIT_ITEMS = [
@@ -55,7 +55,7 @@ const TRACK_BADGES = [
   { label: 'Since 2016',      sub: '글로벌 이커머스 실무' },
   { label: 'Amazon #1',       sub: '제조사 자사제품 베스트셀러' },
   { label: 'B2B Education',   sub: '대학·기관·무역협회 강의' },
-  { label: 'Execution-Based', sub: '운영·콘텐츠·교육 연결' },
+  { label: 'Execution-Based', sub: '운영·콘텐츠·교육·컨설팅' },
 ]
 
 const TRACK_HISTORY = [
