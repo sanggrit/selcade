@@ -4,7 +4,7 @@
  *
  * Section order:
  *   Header → Hero → TrustBar → ProblemRole → Services →
- *   Fit → TrackRecord → Process → FinalCTA → Contact → Footer
+ *   Fit → TrackRecord → PartnerBrands → Process → FinalCTA → Contact → Footer
  *
  * Color system:
  *   Dark BG:        #0A0A0A / #111318
@@ -317,26 +317,37 @@ function Hero() {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   PARTNER MARQUEE
+   PARTNER BRANDS
    ───────────────────────────────────────────────────────────── */
-function PartnerMarquee() {
+function PartnerBrands() {
   const items = [...PARTNER_BRANDS, ...PARTNER_BRANDS]
   return (
-    <div className="bg-[#111318] border-b border-[#27272A] py-4 overflow-hidden">
-      <div
-        className="flex whitespace-nowrap"
-        style={{ animation: 'marquee 18s linear infinite' }}
-      >
-        {items.map((brand, i) => (
-          <span key={i} className="inline-flex items-center gap-6 px-10">
-            <span className="text-[11px] font-bold tracking-[0.3em] uppercase text-[#3F3F46]">
-              {brand}
-            </span>
-            <span className="w-1 h-1 rounded-full bg-[#27272A] flex-shrink-0" aria-hidden="true" />
-          </span>
-        ))}
+    <section className="py-20 sm:py-28 bg-[#0A0A0A] border-t border-[#27272A] overflow-hidden">
+      <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 mb-12 sm:mb-16">
+        <SectionLabel text="Partner Brands" dark />
+        <h2 className="mt-4 text-[2rem] sm:text-[2.5rem] lg:text-[3.25rem] font-black text-[#F5F5F4] leading-tight">
+          함께한 브랜드
+        </h2>
       </div>
-    </div>
+
+      {/* Marquee — two identical sets so the loop is seamless */}
+      <div className="overflow-hidden">
+        <div
+          className="flex whitespace-nowrap"
+          style={{ animation: 'marquee 24s linear infinite' }}
+          aria-hidden="true"
+        >
+          {items.map((brand, i) => (
+            <span key={i} className="inline-flex items-center flex-shrink-0">
+              <span className="text-[2.5rem] sm:text-[3.5rem] lg:text-[5rem] font-black tracking-tight text-[#1C1C1C] hover:text-[#2A2A2A] transition-colors duration-300 px-10 sm:px-14 lg:px-20 select-none">
+                {brand}
+              </span>
+              <span className="text-[#F59E0B] text-[2rem] sm:text-[3rem] lg:text-[4rem] font-black select-none" aria-hidden="true">·</span>
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
   )
 }
 
@@ -948,11 +959,11 @@ export default function App() {
         <Header />
         <Hero />
         <TrustBar />
-        <PartnerMarquee />
         <ProblemRole />
         <Services />
         <Fit />
         <TrackRecord />
+        <PartnerBrands />
         <Process />
         <FinalCTA />
         <Contact />
