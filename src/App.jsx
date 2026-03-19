@@ -73,6 +73,14 @@ const PROCESS_STEPS = [
   { num: '04', title: '실행', desc: '우선순위에 따라 단계적으로 진행합니다.' },
 ]
 
+const PARTNER_BRANDS = [
+  'atrax F&B',
+  'pooretty',
+  '동현정공',
+  'DOWMI',
+  'UNIF',
+]
+
 const INQUIRY_AREAS = [
   '아마존 운영대행',
   '해외 판매 콘텐츠 기획',
@@ -305,6 +313,30 @@ function Hero() {
         <span className="text-[#F5F5F4] text-[8px] tracking-[0.35em] uppercase">Scroll</span>
       </div>
     </section>
+  )
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PARTNER MARQUEE
+   ───────────────────────────────────────────────────────────── */
+function PartnerMarquee() {
+  const items = [...PARTNER_BRANDS, ...PARTNER_BRANDS]
+  return (
+    <div className="bg-[#111318] border-b border-[#27272A] py-4 overflow-hidden">
+      <div
+        className="flex whitespace-nowrap"
+        style={{ animation: 'marquee 18s linear infinite' }}
+      >
+        {items.map((brand, i) => (
+          <span key={i} className="inline-flex items-center gap-6 px-10">
+            <span className="text-[11px] font-bold tracking-[0.3em] uppercase text-[#3F3F46]">
+              {brand}
+            </span>
+            <span className="w-1 h-1 rounded-full bg-[#27272A] flex-shrink-0" aria-hidden="true" />
+          </span>
+        ))}
+      </div>
+    </div>
   )
 }
 
@@ -916,6 +948,7 @@ export default function App() {
         <Header />
         <Hero />
         <TrustBar />
+        <PartnerMarquee />
         <ProblemRole />
         <Services />
         <Fit />
